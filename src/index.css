@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+@theme {
+  --color-game-dark: #07080d;
+  --color-game-cardBack: #121424;
+  --color-game-cardBackHover: #1c1f36;
+  --color-game-neonCyan: #00f0ff;
+  --color-game-neonPurple: #bd00ff;
+  --color-game-neonGold: #ffb800;
+  --color-game-neonRed: #ff0055;
+  --color-game-neonGreen: #39ff14;
+
+  --animate-pulse-slow: pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-shake: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+  --animate-flash-red: flashRed 0.5s ease-in-out infinite alternate;
+
+  @keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+  }
+  @keyframes flashRed {
+    0% { background-color: rgba(255, 0, 85, 0); }
+    100% { background-color: rgba(255, 0, 85, 0.25); }
+  }
+}
+
+:root {
+  font-family: 'Outfit', sans-serif;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  background-color: #07080d;
+  background-image: 
+    radial-gradient(at 0% 0%, rgba(20, 10, 45, 0.5) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, rgba(5, 30, 40, 0.5) 0px, transparent 50%);
+  color: #f3f4f6;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Glassmorphism Panel */
+.glass-panel {
+  background: rgba(18, 20, 36, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Neon Glows */
+.neon-border-cyan {
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.25), inset 0 0 10px rgba(0, 240, 255, 0.1);
+  border: 1px solid rgba(0, 240, 255, 0.5);
+}
+
+.neon-border-purple {
+  box-shadow: 0 0 10px rgba(189, 0, 255, 0.25), inset 0 0 10px rgba(189, 0, 255, 0.1);
+  border: 1px solid rgba(189, 0, 255, 0.5);
+}
+
+.neon-border-gold {
+  box-shadow: 0 0 10px rgba(255, 184, 0, 0.25), inset 0 0 10px rgba(255, 184, 0, 0.1);
+  border: 1px solid rgba(255, 184, 0, 0.5);
+}
+
+.neon-border-red {
+  box-shadow: 0 0 15px rgba(255, 0, 85, 0.35), inset 0 0 10px rgba(255, 0, 85, 0.1);
+  border: 1px solid rgba(255, 0, 85, 0.6);
+}
+
+.neon-border-green {
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.25), inset 0 0 10px rgba(57, 255, 20, 0.1);
+  border: 1px solid rgba(57, 255, 20, 0.5);
+}
+
+/* Glowing Text */
+.neon-text-cyan {
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.6);
+}
+
+.neon-text-purple {
+  text-shadow: 0 0 8px rgba(189, 0, 255, 0.6);
+}
+
+.neon-text-gold {
+  text-shadow: 0 0 8px rgba(255, 184, 0, 0.6);
+}
+
+.neon-text-red {
+  text-shadow: 0 0 10px rgba(255, 0, 85, 0.8);
+}
+
+.neon-text-green {
+  text-shadow: 0 0 8px rgba(57, 255, 20, 0.6);
+}
+
+/* 3D Card Flip Mechanics */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(7, 8, 13, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(189, 0, 255, 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(189, 0, 255, 0.6);
+}
