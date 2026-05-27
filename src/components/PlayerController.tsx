@@ -91,7 +91,7 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
   const activeTeam = syncedState?.teams[syncedState.currentTeamIndex];
 
   // Helper lists
-  const letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"];
+  const letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
 
   const getCardImage = (type: Card['type']): string => {
     switch (type) {
@@ -304,46 +304,127 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
 
             {/* QUESTION PHASE */}
             {syncedState.gamePhase === 'question' && (
-              <div className="space-y-4 w-full">
+              <div className="space-y-4 w-full animate-fade-in">
                 {isMyTurn ? (
                   <div className="space-y-4">
+                    {/* Header */}
                     <div className="text-center space-y-1">
-                      <span className="text-xs text-game-neonCyan font-bold uppercase block">Thảo Luận & Trả Lời</span>
-                      <p className="text-[10px] text-white/40 leading-snug">
-                        Chạm vào phương án A, B, C hoặc D để gửi câu trả lời của nhóm bạn lên màn hình lớn!
-                      </p>
+                      <span className="text-[10px] text-game-neonCyan font-bold uppercase tracking-wider block">
+                        Đến Lượt Nhóm Bạn Trả Lời
+                      </span>
+                      <h4 className="text-base font-extrabold uppercase text-white tracking-wide leading-none">
+                        Câu Hỏi Ô {syncedState.activeQuestion?.letter}
+                      </h4>
                     </div>
 
+                    {/* Timer Bar */}
+                    {syncedState.questionStatus === 'answering' && (
+                      <div className="space-y-1">
+                        <div className="flex justify-between items-center text-[10px]">
+                          <span className="text-white/40 font-mono">Đồng hồ đếm ngược</span>
+                          <span className={`font-mono font-bold flex items-center gap-1 ${
+                            syncedState.timeLeft <= 5 ? 'text-game-neonRed animate-pulse' : 'text-game-neonCyan'
+                          }`}>
+                            <Clock className="w-3 h-3" /> {syncedState.timeLeft} Giây
+                          </span>
+                        </div>
+                        <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/10">
+                          <div
+                            className={`h-full rounded-full transition-all duration-1000 ${
+                              syncedState.timeLeft <= 5 ? 'bg-game-neonRed' :
+                              syncedState.timeLeft <= 12 ? 'bg-game-neonGold' :
+                              'bg-game-neonCyan'
+                            }`}
+                            style={{ width: `${(syncedState.timeLeft / (syncedState.discussionTimeLimit || 30)) * 100}%` }}
+                          />
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Question Card Box */}
+                    <div className="p-4 rounded-xl bg-white/5 border border-white/10 text-center relative overflow-hidden">
+                      <p className="text-xs md:text-sm font-extrabold text-white leading-relaxed relative z-10">
+                        "{syncedState.activeQuestion?.question}"
+                      </p>
+                      <div className="absolute top-0 left-0 w-8 h-8 bg-game-neonCyan/5 rounded-full blur-xl -translate-x-3 -translate-y-3" />
+                    </div>
+
+                    {/* Options Grid */}
                     {syncedState.questionStatus === 'answering' ? (
-                      <div className="grid grid-cols-1 gap-2.5">
-                        {["A", "B", "C", "D"].map((prefix, idx) => (
-                          <button
-                            key={idx}
-                            type="button"
-                            onClick={() => sendAction('SUBMIT_ANSWER', idx)}
-                            className="w-full p-4 rounded-xl bg-white/5 border border-white/10 active:border-game-neonPurple active:bg-game-neonPurple/20 text-left font-bold text-sm text-white transition-all flex items-center gap-3"
-                          >
-                            <span className="w-7 h-7 rounded-lg bg-white/10 flex items-center justify-center text-xs text-white/60">
-                              {prefix}
-                            </span>
-                            <span>{syncedState.activeQuestion?.options[idx] || `Đáp án ${prefix}`}</span>
-                          </button>
-                        ))}
+                      <div className="grid grid-cols-1 gap-2">
+                        {syncedState.activeQuestion?.options.map((option: string, idx: number) => {
+                          const letterPrefix = ["A", "B", "C", "D"][idx];
+                          return (
+                            <button
+                              key={idx}
+                              type="button"
+                              onClick={() => sendAction('SUBMIT_ANSWER', idx)}
+                              className="w-full p-3.5 rounded-xl bg-white/5 border border-white/10 active:border-game-neonPurple active:bg-game-neonPurple/20 text-left transition-all duration-200 flex items-center gap-3 group"
+                            >
+                              <span className="w-7 h-7 rounded-lg bg-white/10 text-white/60 group-active:bg-game-neonPurple group-active:text-black flex items-center justify-center text-xs font-extrabold shrink-0">
+                                {letterPrefix}
+                              </span>
+                              <span className="text-xs font-bold text-white leading-snug">{option}</span>
+                            </button>
+                          );
+                        })}
                       </div>
                     ) : (
-                      <div className="text-center p-6 bg-white/5 border border-white/5 rounded-2xl animate-pulse">
-                        <span className="text-xs font-bold uppercase text-game-neonGold">Đã nộp đáp án!</span>
-                        <p className="text-[10px] text-white/40 mt-1">Hãy xem máy chiếu để kiểm tra kết quả và đọc ý nghĩa lịch sử!</p>
+                      <div className="space-y-3">
+                        <div className="text-center p-4 bg-white/5 border border-white/5 rounded-xl animate-pulse">
+                          <span className="text-xs font-extrabold uppercase text-game-neonGold">Đã nộp đáp án!</span>
+                          <p className="text-[10px] text-white/40 mt-0.5">
+                            Xem màn hình Host để xác nhận kết quả chính xác & ý nghĩa lịch sử!
+                          </p>
+                        </div>
+
+                        {/* If status is correct/incorrect/timeUp, show the correct styling & explanation */}
+                        {(syncedState.questionStatus === 'correct' || 
+                          syncedState.questionStatus === 'incorrect' || 
+                          syncedState.questionStatus === 'timeUp') && (
+                          <div className={`p-3.5 rounded-xl border ${
+                            syncedState.questionStatus === 'correct'
+                              ? 'bg-game-neonGreen/10 border-game-neonGreen/25 text-game-neonGreen'
+                              : 'bg-game-neonRed/10 border-game-neonRed/25 text-game-neonRed'
+                          }`}>
+                            <h5 className="text-xs font-black uppercase tracking-wider mb-1">
+                              {syncedState.questionStatus === 'correct' ? '✔️ TRẢ LỜI ĐÚNG!' : '❌ TRẢ LỜI CHƯA ĐÚNG!'}
+                            </h5>
+                            <p className="text-[10px] text-white/80 leading-relaxed font-normal">
+                              <strong>Ý nghĩa lịch sử:</strong> {syncedState.activeQuestion?.explanation}
+                            </p>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
                 ) : (
-                  <div className="text-center py-10 space-y-3">
-                    <Clock className="w-10 h-10 text-white/20 mx-auto animate-spin" style={{ animationDuration: '8s' }} />
-                    <h5 className="text-xs font-bold text-white/60 uppercase">Đang đấu trí...</h5>
-                    <p className="text-[10px] text-white/40 max-w-xs mx-auto">
-                      Đội {activeTeam?.name} đang trả lời câu hỏi. Quan sát máy chiếu để biết câu trả lời đúng!
-                    </p>
+                  // Other teams' view during active question
+                  <div className="space-y-4">
+                    {/* Header */}
+                    <div className="text-center space-y-1">
+                      <span className="text-[10px] text-white/40 font-bold uppercase tracking-wider block">
+                        Đang Trong Lượt Của Đội Khác
+                      </span>
+                      <h4 className="text-base font-extrabold uppercase text-white/60 tracking-wide leading-none">
+                        Câu Hỏi Ô {syncedState.activeQuestion?.letter}
+                      </h4>
+                    </div>
+
+                    {/* Question Card Box for Spectators */}
+                    <div className="p-4 rounded-xl bg-white/5 border border-white/5 text-center relative overflow-hidden opacity-80">
+                      <p className="text-xs font-bold text-white/70 leading-relaxed">
+                        "{syncedState.activeQuestion?.question}"
+                      </p>
+                    </div>
+
+                    <div className="text-center py-6 space-y-3">
+                      <Clock className="w-10 h-10 text-white/20 mx-auto animate-spin" style={{ animationDuration: '12s' }} />
+                      <h5 className="text-xs font-bold text-white/60 uppercase">Đang đấu trí...</h5>
+                      <p className="text-[10px] text-white/40 max-w-xs mx-auto">
+                        Đội {activeTeam?.name} đang thảo luận trả lời. Cùng quan sát và suy nghĩ xem phương án nào là đúng!
+                      </p>
+                    </div>
                   </div>
                 )}
               </div>
