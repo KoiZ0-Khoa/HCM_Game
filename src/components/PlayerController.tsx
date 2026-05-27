@@ -93,6 +93,18 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
   // Helper lists
   const letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P"];
 
+  const getCardImage = (type: Card['type']): string => {
+    switch (type) {
+      case 'plus1': return '/cards/Lá +1.png';
+      case 'plus2': return '/cards/Lá +2.png';
+      case 'plus3': return '/cards/Lá +3.png';
+      case 'plus4': return '/cards/Lá +4.png';
+      case 'plus5': return '/cards/Lá +5.png';
+      case 'bomb':  return '/cards/Lá bomb.png';
+      default:      return '/cards/Lá đặc biệt.png';
+    }
+  };
+
   return (
     <div className="flex-1 w-full max-w-md mx-auto px-4 py-4 flex flex-col justify-start min-h-[85vh]">
       
@@ -374,22 +386,60 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
 
                     {/* 12 Cards list to flip */}
                     {!syncedState.showSwapModal && !syncedState.showRareModal && (
-                      <div className="grid grid-cols-4 gap-2">
+                      <div className="grid grid-cols-4 gap-2 py-1">
                         {syncedState.cardsDeck.map((card: Card, idx: number) => (
-                          <button
-                            key={card.id}
-                            disabled={card.isRevealed || syncedState.blockFlipInput}
-                            onClick={() => sendAction('FLIP_CARD', idx)}
-                            className={`aspect-[3/4] rounded-xl border text-xs font-extrabold flex flex-col items-center justify-center transition-all ${
-                              card.isRevealed
-                                ? 'bg-black/60 border-white/5 text-white/15 cursor-not-allowed'
-                                : syncedState.blockFlipInput
-                                ? 'bg-game-cardBack border-white/5 cursor-not-allowed opacity-50'
-                                : 'bg-game-cardBack border-game-neonPurple/30 text-game-neonPurple active:scale-95 active:bg-game-neonPurple/20'
-                            }`}
-                          >
-                            {card.isRevealed ? "LẬT" : `?`}
-                          </button>
+                          <div key={card.id} className="aspect-[3/4] perspective-1000 relative">
+                            <div
+                              className={`w-full h-full duration-500 preserve-3d relative cursor-pointer ${
+                                card.isRevealed ? 'rotate-y-180' : ''
+                              }`}
+                              onClick={() => {
+                                if (!card.isRevealed && !syncedState.blockFlipInput) {
+                                  sendAction('FLIP_CARD', idx);
+                                }
+                              }}
+                            >
+                              {/* Card BACK */}
+                              <div className={`absolute inset-0 w-full h-full backface-hidden rounded-xl border flex flex-col items-center justify-center p-1.5 transition-all duration-300 ${
+                                syncedState.blockFlipInput
+                                  ? 'bg-game-cardBack border-white/5 cursor-not-allowed opacity-60'
+                                  : 'bg-game-cardBack border-game-neonPurple/25 hover:border-game-neonPurple hover:bg-game-cardBackHover shadow-[0_0_8px_rgba(189,0,255,0.05)]'
+                              }`}>
+                                <div className="w-6 h-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-1">
+                                  <Shield className="w-3.5 h-3.5 text-game-neonPurple/50" />
+                                </div>
+                                <span className="text-[7px] font-bold text-white/30 tracking-wider uppercase">Mặt Sau</span>
+                                <span className="text-[7px] text-game-neonPurple/40 font-mono mt-0.5">#{(card.id + 1).toString().padStart(2, '0')}</span>
+                              </div>
+
+                              {/* Card FRONT */}
+                              <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-xl overflow-hidden border border-white/20 flex flex-col justify-end">
+                                <img
+                                  src={getCardImage(card.type)}
+                                  alt={card.name}
+                                  className="absolute inset-0 w-full h-full object-cover"
+                                  draggable={false}
+                                />
+                                
+                                {/* Overlay banner for special/rare cards on phone */}
+                                {['nuclear', 'loseAll', 'changePoints', 'rare'].includes(card.type) && (
+                                  <div className="absolute inset-x-0 bottom-0 bg-black/90 px-1 py-1 border-t border-white/10 text-center z-10">
+                                    <span className={`text-[6px] font-black tracking-wider uppercase block leading-none mb-0.5 ${
+                                      card.type === 'rare' ? 'text-yellow-400' :
+                                      card.type === 'changePoints' ? 'text-game-neonCyan' :
+                                      card.type === 'nuclear' ? 'text-orange-400' :
+                                      'text-red-500'
+                                    }`}>
+                                      {card.type === 'rare' ? 'Thẻ Rare' : 'Đặc Biệt'}
+                                    </span>
+                                    <h4 className="text-[7px] font-bold text-white leading-tight uppercase line-clamp-1">
+                                      {card.name.replace(' (Rare)', '')}
+                                    </h4>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
                         ))}
                       </div>
                     )}

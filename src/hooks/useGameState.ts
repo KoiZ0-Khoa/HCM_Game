@@ -681,8 +681,15 @@ export const useGameState = () => {
       addLog("--- TRÒ CHƠI KẾT THÚC! BẢNG VÀNG DANH DỰ ---", "special");
       
       // Find the winner
-      const sorted = [...teams].sort((a, b) => b.score - a.score);
-      addLog(`CHÚC MỪNG CHIẾN THẮNG: ${sorted[0].name} với tổng ${sorted[0].score} điểm!`, "success");
+      const maxScore = Math.max(...teams.map(t => t.score));
+      const teamsWithMaxScore = teams.filter(t => t.score === maxScore);
+      const hasUniqueWinner = teamsWithMaxScore.length === 1 && maxScore > 0;
+
+      if (hasUniqueWinner) {
+        addLog(`CHÚC MỪNG CHIẾN THẮNG: ${teamsWithMaxScore[0].name} với tổng ${maxScore} điểm!`, "success");
+      } else {
+        addLog(`TRẬN ĐẤU HÒA CHUNG CUỘC! Các đội có điểm số cao nhất là ${maxScore} điểm.`, "special");
+      }
       return;
     }
 
