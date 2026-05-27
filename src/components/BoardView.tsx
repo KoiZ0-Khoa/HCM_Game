@@ -56,10 +56,10 @@ export const BoardView: React.FC<BoardViewProps> = ({
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         
-        {/* Left: 16 Question Grid */}
+        {/* Left: 12 Question Grid */}
         <div className="lg:col-span-8 space-y-4">
           <h3 className="text-lg font-bold text-white/80 uppercase tracking-wider flex items-center gap-2">
-            <span>Bàn Cờ Trận Địa (16 Câu Hỏi)</span>
+            <span>Bàn Cờ Trận Địa (12 Câu Hỏi)</span>
           </h3>
           
           <div className="grid grid-cols-4 gap-4">

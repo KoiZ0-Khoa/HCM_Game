@@ -108,7 +108,7 @@ export const useGameState = () => {
   
   // Game Phases
   const [gamePhase, setGamePhase] = useState<GamePhase>('lobby');
-  const [unlockedQuestions, setUnlockedQuestions] = useState<boolean[]>(new Array(16).fill(false));
+  const [unlockedQuestions, setUnlockedQuestions] = useState<boolean[]>(new Array(12).fill(false));
   const [activeQuestion, setActiveQuestion] = useState<Question | null>(null);
   const [questionStatus, setQuestionStatus] = useState<QuestionStatus>('idle');
   const [timeLeft, setTimeLeft] = useState<number>(30);
@@ -163,6 +163,14 @@ export const useGameState = () => {
     const randCode = Math.floor(1000 + Math.random() * 9000).toString();
     setRoomId(randCode);
   }, []);
+
+  // Hiện modal Rare Card sau animation lật thẻ (600ms).
+  // Cleanup tự huỷ timer nếu rareCardIndex bị reset (nextTurn) trước khi modal kịp mở.
+  useEffect(() => {
+    if (rareCardIndex === null) return;
+    const timer = setTimeout(() => setShowRareModal(true), 600);
+    return () => clearTimeout(timer);
+  }, [rareCardIndex]);
 
   // WebSockets Connection Effect (Only runs when online status or roomId changes)
   useEffect(() => {
@@ -352,7 +360,7 @@ export const useGameState = () => {
       setTeams(prev => prev.map((t, idx) => ({ ...t, name: customNames[idx] || `Nhóm ${idx + 1}`, score: 0 })));
     }
     setDiscussionTimeLimit(timeLimit);
-    setUnlockedQuestions(new Array(16).fill(false));
+    setUnlockedQuestions(new Array(12).fill(false));
     setCurrentTeamIndex(0);
     setGamePhase('board');
     setGameLogs([]);
@@ -419,9 +427,28 @@ export const useGameState = () => {
     setTemporaryScore(0);
     setActiveFlippedCard(null);
     setBlockFlipInput(false);
+    setShowRareModal(false);
+    setRareCardIndex(null);
 
-    // Shuffle and build a fresh deck of 12 cards
-    const deckTemplates = shuffle(CARD_TEMPLATES).slice(0, 12);
+    // We want the Rare card to have less chance of appearing in the deck of 12 cards.
+    // Instead of shuffling the entire pool (which gives it a 12/13 ~ 92.3% chance),
+    // we explicitly control its spawn rate (e.g. 25% chance).
+    const RARE_CARD_CHANCE = 0.25; 
+    const includeRare = Math.random() < RARE_CARD_CHANCE;
+
+    const rareTemplate = CARD_TEMPLATES.find(tmpl => tmpl.type === 'rare')!;
+    const otherTemplates = CARD_TEMPLATES.filter(tmpl => tmpl.type !== 'rare');
+
+    let deckTemplates: Omit<Card, 'id' | 'isRevealed'>[] = [];
+    if (includeRare) {
+      // Pick 11 non-rare cards and add the rare card, then shuffle
+      const slicedOthers = shuffle(otherTemplates).slice(0, 11);
+      deckTemplates = shuffle([...slicedOthers, rareTemplate]);
+    } else {
+      // Pick 12 non-rare cards (all of them) and shuffle
+      deckTemplates = shuffle(otherTemplates).slice(0, 12);
+    }
+
     const generatedDeck: Card[] = deckTemplates.map((tmpl, idx) => ({
       ...tmpl,
       id: idx,
@@ -532,13 +559,9 @@ export const useGameState = () => {
         break;
 
       case 'rare':
-        // Opens safe (+5 pts) vs risk dialog
         sounds.playCorrect();
-        setRareCardIndex(cardIdx);
         addLog(`${activeTeam.name} đứng trước Cơ hội đoàn kết (Rare Card)! Đang đưa ra quyết định.`, 'warning');
-        setTimeout(() => {
-          setShowRareModal(true);
-        }, 800);
+        setRareCardIndex(cardIdx); // useEffect sẽ bật modal sau animation
         break;
     }
   };
@@ -555,12 +578,16 @@ export const useGameState = () => {
     }));
 
     addLog(`Đổi điểm thành công! ${activeTeam.name} tráo điểm với ${targetTeam.name} (Điểm cũ: ${activeTeam.score} vs ${targetTeam.score})`, 'special');
+    sounds.playVictory();
     setShowSwapModal(false);
-    setBlockFlipInput(false);
+    setTimeout(() => {
+      nextTurn();
+    }, 2500);
   };
 
   // Safe choice rare card (+5 safe points and ends turn)
   const chooseSafeRare = () => {
+    if (!showRareModal) return;
     setShowRareModal(false);
     const finalScore = temporaryScore + 5;
     
@@ -575,6 +602,7 @@ export const useGameState = () => {
 
   // Risk choice rare card
   const chooseRiskRare = () => {
+    if (!showRareModal || rareCardIndex === null) return;
     setShowRareModal(false);
     const gambleChance = Math.random() < 0.5; // 50-50 swap or loseAll
 
@@ -644,9 +672,9 @@ export const useGameState = () => {
     setRareCardIndex(null);
     setBlockFlipInput(false);
 
-    // Check if game is over (all 16 questions unlocked)
+    // Check if game is over (all 12 questions unlocked)
     const allAnswered = unlockedQuestions.every(q => q === true);
-    // Or if one team reached high points? Let's check when all 16 questions are solved
+    // Or if one team reached high points? Let's check when all 12 questions are solved
     if (allAnswered) {
       setGamePhase('victory');
       sounds.playVictory();
@@ -672,7 +700,7 @@ export const useGameState = () => {
   const resetGame = () => {
     setGamePhase('lobby');
     setTeams(prev => prev.map(t => ({ ...t, score: 0 })));
-    setUnlockedQuestions(new Array(16).fill(false));
+    setUnlockedQuestions(new Array(12).fill(false));
     setCurrentTeamIndex(0);
     setGameLogs([]);
     setConnectedPlayers([]);

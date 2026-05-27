@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Sparkles, Coins, Skull, HeartCrack, RefreshCw, Trophy, AlertOctagon } from 'lucide-react';
+import { Shield, Sparkles, RefreshCw, Trophy, AlertOctagon } from 'lucide-react';
 import type { Card, Team } from '../types';
 
 interface FlippingViewProps {
@@ -40,33 +40,15 @@ export const FlippingView: React.FC<FlippingViewProps> = ({
   nuclearAlert
 }) => {
 
-  const getCardFrontStyle = (type: Card['type']) => {
+  const getCardImage = (type: Card['type']): string => {
     switch (type) {
-      case 'bomb':
-        return 'bg-gradient-to-br from-red-950/80 to-black border-game-neonRed text-game-neonRed neon-border-red shadow-[inset_0_0_20px_rgba(255,0,85,0.2)]';
-      case 'loseAll':
-        return 'bg-gradient-to-br from-purple-950/80 to-black border-game-neonPurple text-game-neonPurple neon-border-purple';
-      case 'nuclear':
-        return 'bg-gradient-to-br from-orange-950/80 to-black border-game-neonGold text-game-neonGold neon-border-gold';
-      case 'changePoints':
-        return 'bg-gradient-to-br from-blue-950/80 to-black border-game-neonCyan text-game-neonCyan neon-border-cyan';
-      case 'rare':
-        return 'bg-gradient-to-br from-amber-950/80 to-black border-yellow-400 text-yellow-400 shadow-[0_0_20px_rgba(255,215,0,0.35)]';
-      default:
-        // plus1 to plus5
-        return 'bg-gradient-to-br from-slate-900 to-black border-game-neonGreen text-game-neonGreen neon-border-green';
-    }
-  };
-
-  const getCardIcon = (type: Card['type']) => {
-    const size = "w-8 h-8";
-    switch (type) {
-      case 'bomb': return <Skull className={`${size} animate-bounce`} />;
-      case 'loseAll': return <HeartCrack className={`${size} animate-pulse`} />;
-      case 'nuclear': return <AlertOctagon className={`${size} animate-pulse`} />;
-      case 'changePoints': return <RefreshCw className={`${size} animate-spin`} style={{ animationDuration: '4s' }} />;
-      case 'rare': return <Sparkles className={`${size} text-yellow-400`} />;
-      default: return <Coins className={`${size} text-game-neonGreen neon-text-green`} />;
+      case 'plus1': return '/cards/Lá +1.png';
+      case 'plus2': return '/cards/Lá +2.png';
+      case 'plus3': return '/cards/Lá +3.png';
+      case 'plus4': return '/cards/Lá +4.png';
+      case 'plus5': return '/cards/Lá +5.png';
+      case 'bomb':  return '/cards/Lá bomb.png';
+      default:      return '/cards/Lá đặc biệt.png';
     }
   };
 
@@ -147,24 +129,30 @@ export const FlippingView: React.FC<FlippingViewProps> = ({
               </div>
 
               {/* Card FRONT (Revealed) */}
-              <div className={`absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-2xl border flex flex-col justify-between p-4 ${getCardFrontStyle(card.type)}`}>
-                <div className="flex justify-between items-start">
-                  <span className="text-[10px] font-bold tracking-widest uppercase opacity-60">LÁ BÀI</span>
-                  {getCardIcon(card.type)}
-                </div>
-
-                <div className="text-center py-2">
-                  <span className="text-2xl font-black block tracking-wide">
-                    {card.effectText}
-                  </span>
-                  <span className="text-[11px] font-bold uppercase tracking-wider block mt-1 opacity-90">
-                    {card.name}
-                  </span>
-                </div>
-
-                <div className="text-[9px] text-white/50 border-t border-white/5 pt-2 text-center italic leading-tight">
-                  Nhân phẩm lật thẻ
-                </div>
+              <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-2xl overflow-hidden border-2 border-white/20 flex flex-col justify-end">
+                <img
+                  src={getCardImage(card.type)}
+                  alt={card.name}
+                  className="absolute inset-0 w-full h-full object-cover"
+                  draggable={false}
+                />
+                
+                {/* Special Card Banner Overlay (For cards sharing Lá đặc biệt.png) */}
+                {['nuclear', 'loseAll', 'changePoints', 'rare'].includes(card.type) && (
+                  <div className="absolute inset-x-0 bottom-0 bg-black/85 backdrop-blur-sm px-2 py-3 border-t border-white/10 text-center z-10 animate-fade-in">
+                    <span className={`text-[9px] font-black tracking-widest uppercase block mb-0.5 ${
+                      card.type === 'rare' ? 'text-yellow-400 neon-text-gold' :
+                      card.type === 'changePoints' ? 'text-game-neonCyan neon-text-cyan' :
+                      card.type === 'nuclear' ? 'text-orange-400' :
+                      'text-red-500'
+                    }`}>
+                      {card.type === 'rare' ? 'Thẻ Rare' : 'Thẻ Đặc Biệt'}
+                    </span>
+                    <h4 className="text-[11px] font-black text-white leading-tight uppercase line-clamp-1">
+                      {card.name.replace(' (Rare)', '')}
+                    </h4>
+                  </div>
+                )}
               </div>
             </div>
           </div>

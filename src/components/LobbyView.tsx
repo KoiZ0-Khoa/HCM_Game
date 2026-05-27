@@ -237,7 +237,7 @@ export const LobbyView: React.FC<LobbyViewProps> = ({
               <div className="p-4 rounded-xl bg-white/5 border border-white/5">
                 <h4 className="font-bold text-xs text-game-neonCyan mb-1.5 uppercase">Quy Trình Một Lượt</h4>
                 <ul className="text-xs text-white/70 space-y-1.5 list-disc pl-4 leading-relaxed font-normal">
-                  <li><strong>Chọn câu hỏi:</strong> Đội chơi chọn chữ cái (A-P) tương ứng với 16 câu hỏi trên bảng.</li>
+                  <li><strong>Chọn câu hỏi:</strong> Đội chơi chọn chữ cái (A-L) tương ứng với 12 câu hỏi trên bảng.</li>
                   <li><strong>Trả lời:</strong> Thảo luận nhanh và trả lời câu hỏi trắc nghiệm trong thời gian quy định.</li>
                   <li><strong>Lật thẻ nhân phẩm:</strong> Trả lời ĐÚNG sẽ được vào vòng lật thẻ tích điểm tạm thời. Trả lời SAI sẽ chuyển lượt ngay cho đội kế tiếp.</li>
                   <li><strong>Quyết định:</strong> Trong vòng lật thẻ, nhóm có thể <strong>"Dừng lại"</strong> để cộng điểm tạm thời vào điểm chính thức, hoặc <strong>"Lật tiếp"</strong> để tìm điểm lớn hơn nhưng phải đối mặt nguy cơ mất hết!</li>

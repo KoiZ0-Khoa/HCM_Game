@@ -26,7 +26,7 @@ export const VictoryView: React.FC<VictoryViewProps> = ({ teams, onReset }) => {
           </h2>
         </div>
         <p className="text-sm text-white/50 max-w-md mx-auto">
-          Trải qua 16 ô chữ đấu trí khốc liệt và những màn lật bài nhân phẩm kịch tính, khối đoàn kết vĩ đại đã tìm ra người thủ lĩnh dẫn đầu!
+          Trải qua 12 ô chữ đấu trí khốc liệt và những màn lật bài nhân phẩm kịch tính, khối đoàn kết vĩ đại đã tìm ra người thủ lĩnh dẫn đầu!
         </p>
       </div>
 
