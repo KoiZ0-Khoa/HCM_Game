@@ -106,12 +106,13 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
   };
 
   return (
-    <div className="flex-1 w-full max-w-md mx-auto px-4 py-4 flex flex-col justify-start min-h-[85vh]">
+    <div className="flex-1 w-full max-w-xl md:max-w-2xl mx-auto px-4 py-6 flex flex-col justify-start min-h-[85vh] space-y-6">
       
       {/* 1. LOBBY LOGIN INTERFACE */}
       {!joined ? (
-        <form onSubmit={handleJoin} className="glass-panel p-6 rounded-3xl border-game-neonPurple/30 space-y-5 my-auto shadow-2xl">
-          <div className="text-center space-y-1">
+        <div className="w-full max-w-md mx-auto my-auto">
+          <form onSubmit={handleJoin} className="glass-panel p-6 rounded-3xl border-game-neonPurple/30 space-y-5 shadow-2xl">
+            <div className="text-center space-y-1">
             <h2 className="text-2xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-r from-game-neonPurple to-game-neonCyan">
               Tay Cầm Đồng Bộ
             </h2>
@@ -189,8 +190,9 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
             >
               Tham Gia
             </button>
-          </div>
-        </form>
+            </div>
+          </form>
+        </div>
       ) : !syncedState ? (
         /* 2. WAITING FOR HOST STATE SYNC */
         <div className="glass-panel p-8 rounded-3xl text-center space-y-4 my-auto">
@@ -207,33 +209,33 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
         <div className="space-y-4 flex-1 flex flex-col justify-between">
           
           {/* Quick HUD Card */}
-          <div className="glass-panel p-4 rounded-2xl flex items-center justify-between border-white/10 bg-white/5">
-            <div className="flex items-center gap-2">
-              <div className={`w-2.5 h-2.5 rounded-full bg-game-neonGreen animate-pulse`} />
+          <div className="glass-panel p-5 rounded-2xl flex items-center justify-between border-white/10 bg-white/5 shadow-md">
+            <div className="flex items-center gap-3">
+              <div className={`w-3 h-3 rounded-full bg-game-neonGreen animate-pulse`} />
               <div>
-                <span className="text-[9px] text-white/40 font-bold block uppercase leading-none">Tên Nhóm Của Bạn</span>
-                <span className="text-sm font-extrabold text-game-neonCyan">{teamName}</span>
+                <span className="text-xs text-white/40 font-bold block uppercase leading-none mb-1">Tên Nhóm Của Bạn</span>
+                <span className="text-base font-extrabold text-game-neonCyan">{teamName}</span>
               </div>
             </div>
 
             <div className="text-right">
-              <span className="text-[9px] text-white/40 font-bold block uppercase leading-none">Điểm Đang Có</span>
-              <span className="text-sm font-black text-game-neonGold">{syncedState.teams[teamSlot!].score}đ</span>
+              <span className="text-xs text-white/40 font-bold block uppercase leading-none mb-1">Điểm Đang Có</span>
+              <span className="text-lg font-black text-game-neonGold">{syncedState.teams[teamSlot!].score}đ</span>
             </div>
           </div>
 
           {/* TURN STATE NOTIFIER */}
-          <div className={`p-4 rounded-2xl border text-center transition-all ${
+          <div className={`p-5 rounded-2xl border text-center transition-all ${
             isMyTurn 
-              ? 'bg-game-neonCyan/15 border-game-neonCyan shadow-[0_0_15px_rgba(0,240,255,0.1)]' 
+              ? 'bg-game-neonCyan/15 border-game-neonCyan shadow-[0_0_15px_rgba(0,240,255,0.15)]' 
               : 'bg-white/5 border-white/5'
           }`}>
-            <span className="text-[9px] text-white/40 font-semibold tracking-wider uppercase block">
+            <span className="text-xs text-white/40 font-bold tracking-wider uppercase block mb-1">
               Trạng thái lượt
             </span>
-            <h4 className="text-base font-extrabold uppercase mt-0.5">
+            <h4 className="text-lg font-black uppercase">
               {isMyTurn ? (
-                <span className="text-game-neonCyan neon-text-cyan flex items-center justify-center gap-1.5 animate-pulse">
+                <span className="text-game-neonCyan neon-text-cyan flex items-center justify-center gap-2 animate-pulse">
                   🌟 ĐẾN LƯỢT CỦA BẠN! 🌟
                 </span>
               ) : (
@@ -265,9 +267,9 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
               <div className="space-y-4 w-full">
                 {isMyTurn ? (
                   <div className="space-y-3">
-                    <div className="text-center">
-                      <span className="text-xs text-game-neonCyan font-bold uppercase tracking-wider block">Hãy Chọn Câu Hỏi</span>
-                      <p className="text-[10px] text-white/40">Chạm vào một chữ cái chưa khóa trên điện thoại để mở câu hỏi!</p>
+                    <div className="text-center space-y-1">
+                      <span className="text-sm text-game-neonCyan font-black uppercase tracking-widest block">Hãy Chọn Câu Hỏi</span>
+                      <p className="text-xs text-white/50">Chạm vào một chữ cái chưa khóa trên điện thoại để mở câu hỏi!</p>
                     </div>
 
                     <div className="grid grid-cols-4 gap-2.5">
@@ -278,7 +280,7 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                             key={idx}
                             disabled={isUsed}
                             onClick={() => sendAction('SELECT_QUESTION', idx + 1)}
-                            className={`aspect-square rounded-xl flex items-center justify-center font-extrabold text-lg border transition-all ${
+                            className={`aspect-square rounded-xl flex items-center justify-center font-extrabold text-2xl border transition-all ${
                               isUsed
                                 ? 'bg-black/50 border-white/5 text-white/10 cursor-not-allowed'
                                 : 'bg-game-neonCyan/10 border-game-neonCyan/40 text-white active:scale-95 active:bg-game-neonCyan active:text-black hover:border-game-neonCyan'
@@ -308,27 +310,27 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                 {isMyTurn ? (
                   <div className="space-y-4">
                     {/* Header */}
-                    <div className="text-center space-y-1">
-                      <span className="text-[10px] text-game-neonCyan font-bold uppercase tracking-wider block">
+                    <div className="text-center space-y-1.5">
+                      <span className="text-xs text-game-neonCyan font-bold uppercase tracking-wider block">
                         Đến Lượt Nhóm Bạn Trả Lời
                       </span>
-                      <h4 className="text-base font-extrabold uppercase text-white tracking-wide leading-none">
+                      <h4 className="text-xl font-black uppercase text-white tracking-wide leading-none">
                         Câu Hỏi Ô {syncedState.activeQuestion?.letter}
                       </h4>
                     </div>
 
                     {/* Timer Bar */}
                     {syncedState.questionStatus === 'answering' && (
-                      <div className="space-y-1">
-                        <div className="flex justify-between items-center text-[10px]">
+                      <div className="space-y-1.5">
+                        <div className="flex justify-between items-center text-xs">
                           <span className="text-white/40 font-mono">Đồng hồ đếm ngược</span>
-                          <span className={`font-mono font-bold flex items-center gap-1 ${
+                          <span className={`font-mono font-bold flex items-center gap-1.5 ${
                             syncedState.timeLeft <= 5 ? 'text-game-neonRed animate-pulse' : 'text-game-neonCyan'
                           }`}>
-                            <Clock className="w-3 h-3" /> {syncedState.timeLeft} Giây
+                            <Clock className="w-3.5 h-3.5" /> {syncedState.timeLeft} Giây
                           </span>
                         </div>
-                        <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/10">
+                        <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden border border-white/10">
                           <div
                             className={`h-full rounded-full transition-all duration-1000 ${
                               syncedState.timeLeft <= 5 ? 'bg-game-neonRed' :
@@ -342,16 +344,16 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                     )}
 
                     {/* Question Card Box */}
-                    <div className="p-4 rounded-xl bg-white/5 border border-white/10 text-center relative overflow-hidden">
-                      <p className="text-xs md:text-sm font-extrabold text-white leading-relaxed relative z-10">
+                    <div className="p-5 md:p-6 rounded-2xl bg-white/5 border border-white/10 text-center relative overflow-hidden">
+                      <p className="text-sm md:text-base font-black text-white leading-relaxed relative z-10">
                         "{syncedState.activeQuestion?.question}"
                       </p>
-                      <div className="absolute top-0 left-0 w-8 h-8 bg-game-neonCyan/5 rounded-full blur-xl -translate-x-3 -translate-y-3" />
+                      <div className="absolute top-0 left-0 w-12 h-12 bg-game-neonCyan/5 rounded-full blur-xl -translate-x-4 -translate-y-4" />
                     </div>
 
                     {/* Options Grid */}
                     {syncedState.questionStatus === 'answering' ? (
-                      <div className="grid grid-cols-1 gap-2">
+                      <div className="grid grid-cols-1 gap-2.5">
                         {syncedState.activeQuestion?.options.map((option: string, idx: number) => {
                           const letterPrefix = ["A", "B", "C", "D"][idx];
                           return (
@@ -359,21 +361,21 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                               key={idx}
                               type="button"
                               onClick={() => sendAction('SUBMIT_ANSWER', idx)}
-                              className="w-full p-3.5 rounded-xl bg-white/5 border border-white/10 active:border-game-neonPurple active:bg-game-neonPurple/20 text-left transition-all duration-200 flex items-center gap-3 group"
+                              className="w-full p-4 rounded-xl bg-white/5 border border-white/10 active:border-game-neonPurple active:bg-game-neonPurple/20 text-left transition-all duration-200 flex items-center gap-3.5 group cursor-pointer"
                             >
-                              <span className="w-7 h-7 rounded-lg bg-white/10 text-white/60 group-active:bg-game-neonPurple group-active:text-black flex items-center justify-center text-xs font-extrabold shrink-0">
+                              <span className="w-8 h-8 rounded-lg bg-white/10 text-white/70 group-active:bg-game-neonPurple group-active:text-black flex items-center justify-center text-sm font-black shrink-0">
                                 {letterPrefix}
                               </span>
-                              <span className="text-xs font-bold text-white leading-snug">{option}</span>
+                              <span className="text-sm font-extrabold text-white/95 leading-relaxed">{option}</span>
                             </button>
                           );
                         })}
                       </div>
                     ) : (
-                      <div className="space-y-3">
-                        <div className="text-center p-4 bg-white/5 border border-white/5 rounded-xl animate-pulse">
-                          <span className="text-xs font-extrabold uppercase text-game-neonGold">Đã nộp đáp án!</span>
-                          <p className="text-[10px] text-white/40 mt-0.5">
+                      <div className="space-y-4">
+                        <div className="text-center p-5 bg-white/5 border border-white/5 rounded-2xl animate-pulse">
+                          <span className="text-sm font-black uppercase text-game-neonGold">Đã nộp đáp án!</span>
+                          <p className="text-xs text-white/40 mt-1">
                             Xem màn hình Host để xác nhận kết quả chính xác & ý nghĩa lịch sử!
                           </p>
                         </div>
@@ -382,15 +384,15 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                         {(syncedState.questionStatus === 'correct' || 
                           syncedState.questionStatus === 'incorrect' || 
                           syncedState.questionStatus === 'timeUp') && (
-                          <div className={`p-3.5 rounded-xl border ${
+                          <div className={`p-4 md:p-5 rounded-2xl border animate-fade-in ${
                             syncedState.questionStatus === 'correct'
-                              ? 'bg-game-neonGreen/10 border-game-neonGreen/25 text-game-neonGreen'
-                              : 'bg-game-neonRed/10 border-game-neonRed/25 text-game-neonRed'
+                              ? 'bg-game-neonGreen/10 border-game-neonGreen/25 text-game-neonGreen font-bold'
+                              : 'bg-game-neonRed/10 border-game-neonRed/25 text-game-neonRed font-bold'
                           }`}>
-                            <h5 className="text-xs font-black uppercase tracking-wider mb-1">
+                            <h5 className="text-sm font-black uppercase tracking-wider mb-1.5">
                               {syncedState.questionStatus === 'correct' ? '✔️ TRẢ LỜI ĐÚNG!' : '❌ TRẢ LỜI CHƯA ĐÚNG!'}
                             </h5>
-                            <p className="text-[10px] text-white/80 leading-relaxed font-normal">
+                            <p className="text-xs text-white/90 leading-relaxed font-normal">
                               <strong>Ý nghĩa lịch sử:</strong> {syncedState.activeQuestion?.explanation}
                             </p>
                           </div>
@@ -402,8 +404,8 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                   // Other teams' view during active question
                   <div className="space-y-4">
                     {/* Header */}
-                    <div className="text-center space-y-1">
-                      <span className="text-[10px] text-white/40 font-bold uppercase tracking-wider block">
+                    <div className="text-center space-y-1.5">
+                      <span className="text-xs text-white/40 font-bold uppercase tracking-wider block">
                         Đang Trong Lượt Của Đội Khác
                       </span>
                       <h4 className="text-base font-extrabold uppercase text-white/60 tracking-wide leading-none">
@@ -412,8 +414,8 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                     </div>
 
                     {/* Question Card Box for Spectators */}
-                    <div className="p-4 rounded-xl bg-white/5 border border-white/5 text-center relative overflow-hidden opacity-80">
-                      <p className="text-xs font-bold text-white/70 leading-relaxed">
+                    <div className="p-5 rounded-2xl bg-white/5 border border-white/5 text-center relative overflow-hidden opacity-80">
+                      <p className="text-sm font-bold text-white/70 leading-relaxed">
                         "{syncedState.activeQuestion?.question}"
                       </p>
                     </div>
@@ -486,11 +488,11 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                                   ? 'bg-game-cardBack border-white/5 cursor-not-allowed opacity-60'
                                   : 'bg-game-cardBack border-game-neonPurple/25 hover:border-game-neonPurple hover:bg-game-cardBackHover shadow-[0_0_8px_rgba(189,0,255,0.05)]'
                               }`}>
-                                <div className="w-6 h-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-1">
-                                  <Shield className="w-3.5 h-3.5 text-game-neonPurple/50" />
+                                <div className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-1.5">
+                                  <Shield className="w-4.5 h-4.5 text-game-neonPurple/50" />
                                 </div>
-                                <span className="text-[7px] font-bold text-white/30 tracking-wider uppercase">Mặt Sau</span>
-                                <span className="text-[7px] text-game-neonPurple/40 font-mono mt-0.5">#{(card.id + 1).toString().padStart(2, '0')}</span>
+                                <span className="text-[9px] font-extrabold text-white/30 tracking-wider uppercase">Mặt Sau</span>
+                                <span className="text-[9px] text-game-neonPurple/40 font-mono mt-0.5">#{(card.id + 1).toString().padStart(2, '0')}</span>
                               </div>
 
                               {/* Card FRONT */}
@@ -505,7 +507,7 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                                 {/* Overlay banner for special/rare cards on phone */}
                                 {['nuclear', 'loseAll', 'changePoints', 'rare'].includes(card.type) && (
                                   <div className="absolute inset-x-0 bottom-0 bg-black/90 px-1 py-1 border-t border-white/10 text-center z-10">
-                                    <span className={`text-[6px] font-black tracking-wider uppercase block leading-none mb-0.5 ${
+                                    <span className={`text-[8px] font-black tracking-wider uppercase block leading-none mb-0.5 ${
                                       card.type === 'rare' ? 'text-yellow-400' :
                                       card.type === 'changePoints' ? 'text-game-neonCyan' :
                                       card.type === 'nuclear' ? 'text-orange-400' :
@@ -513,7 +515,7 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                                     }`}>
                                       {card.type === 'rare' ? 'Thẻ Rare' : 'Đặc Biệt'}
                                     </span>
-                                    <h4 className="text-[7px] font-bold text-white leading-tight uppercase line-clamp-1">
+                                    <h4 className="text-[9px] font-bold text-white leading-tight uppercase line-clamp-1">
                                       {card.name.replace(' (Rare)', '')}
                                     </h4>
                                   </div>
