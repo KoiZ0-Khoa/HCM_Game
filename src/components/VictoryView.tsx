@@ -25,26 +25,26 @@ export const VictoryView: React.FC<VictoryViewProps> = ({ teams, onReset }) => {
         <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto animate-bounce-slow shadow-lg ${
           hasUniqueWinner
             ? 'bg-game-neonGold/10 border border-game-neonGold shadow-[0_0_20px_rgba(255,184,0,0.2)]'
-            : 'bg-game-neonCyan/10 border border-game-neonCyan shadow-[0_0_20px_rgba(0,240,255,0.2)]'
+            : 'bg-red-500/10 border border-red-500 shadow-[0_0_20px_rgba(239,68,68,0.2)]'
         }`}>
-          <Crown className={`w-10 h-10 ${hasUniqueWinner ? 'text-game-neonGold neon-text-gold' : 'text-game-neonCyan neon-text-cyan'}`} />
+          <Crown className={`w-10 h-10 ${hasUniqueWinner ? 'text-game-neonGold neon-text-gold' : 'text-red-500 neon-text-red'}`} />
         </div>
         <div className="space-y-1">
-          <span className={`text-xs font-extrabold uppercase tracking-widest block ${hasUniqueWinner ? 'text-game-neonGold' : 'text-game-neonCyan'}`}>
-            {hasUniqueWinner ? 'Bảng Vàng Chiến Thắng' : 'Kết Quả Chung Cuộc'}
+          <span className={`text-xs font-extrabold uppercase tracking-widest block ${hasUniqueWinner ? 'text-game-neonGold' : 'text-red-500'}`}>
+            {hasUniqueWinner ? 'Bảng Vàng Chiến Thắng' : 'Trận Đấu Hòa - Không Có Ai Thắng'}
           </span>
           <h2 className={`text-4xl md:text-5xl font-black uppercase tracking-wide text-transparent bg-clip-text bg-gradient-to-r ${
             hasUniqueWinner
               ? 'from-game-neonGold via-white to-game-neonGold'
-              : 'from-game-neonCyan via-white to-game-neonCyan'
+              : 'from-red-500 via-white to-red-500'
           }`}>
-            {hasUniqueWinner ? 'Đoàn Kết Là Sức Mạnh!' : 'Hòa Chung Cuộc!'}
+            {hasUniqueWinner ? 'Đoàn Kết Là Sức Mạnh!' : 'Hòa Điểm Chung Cuộc!'}
           </h2>
         </div>
         <p className="text-sm text-white/50 max-w-md mx-auto leading-relaxed">
           {hasUniqueWinner
             ? 'Trải qua 12 ô chữ đấu trí khốc liệt và những màn lật bài nhân phẩm kịch tính, khối đoàn kết vĩ đại đã tìm ra người thủ lĩnh dẫn đầu!'
-            : 'Trận đấu đã khép lại với điểm số vô cùng đặc biệt! Đúng với tinh thần "Đại Đoàn Kết", sự cân bằng điểm số thể hiện sức mạnh đồng đều của cả tập thể.'}
+            : 'Do điểm số cao nhất của các đội chơi bằng nhau, theo quy định trận đấu kết thúc ở trạng thái HÒA và không có đội nào giành chiến thắng!'}
         </p>
       </div>
 
@@ -65,11 +65,11 @@ export const VictoryView: React.FC<VictoryViewProps> = ({ teams, onReset }) => {
       {!hasUniqueWinner ? (
         <div className="glass-panel p-6 md:p-8 rounded-3xl border-white/10 shadow-xl space-y-6">
           <div className="text-center py-4 space-y-2">
-            <h3 className="text-xl font-extrabold uppercase text-game-neonCyan neon-text-cyan tracking-wide">
-              Đồng Lòng Vì Mục Tiêu Chung!
+            <h3 className="text-xl font-extrabold uppercase text-red-500 neon-text-red tracking-wide">
+              Không Có Đội Chiến Thắng
             </h3>
             <p className="text-xs text-white/50 max-w-md mx-auto">
-              Không có nhóm chiến thắng đơn độc. Các đội ngang tài ngang sức, cùng nhau xây dựng khối liên minh vững mạnh!
+              Không có đội nào giành chiến thắng chung cuộc do điểm số các đội cao nhất bằng nhau!
             </p>
           </div>
 
@@ -82,23 +82,23 @@ export const VictoryView: React.FC<VictoryViewProps> = ({ teams, onReset }) => {
                   key={team.id}
                   className={`glass-panel p-5 rounded-2xl border text-center flex flex-col justify-between items-center relative transition-all duration-300 hover:scale-102 ${
                     isTopTied
-                      ? 'bg-gradient-to-b from-game-neonCyan/15 to-transparent border-game-neonCyan/40 shadow-[0_0_15px_rgba(0,240,255,0.1)]'
+                      ? 'bg-gradient-to-b from-red-500/10 to-transparent border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.1)]'
                       : 'bg-white/5 border-white/5'
                   }`}
                 >
                   {isTopTied && (
-                    <div className="absolute -top-3 bg-game-neonCyan text-black font-black text-[9px] uppercase px-3 py-1 rounded-full shadow-[0_0_10px_rgba(0,240,255,0.4)]">
-                      Đồng Hạng Nhất
+                    <div className="absolute -top-3 bg-red-500 text-white font-black text-[9px] uppercase px-3 py-1 rounded-full shadow-[0_0_10px_rgba(239,68,68,0.4)]">
+                      Đồng Điểm Cao Nhất
                     </div>
                   )}
                   <div className="py-4">
                     <span className="text-xs font-black text-white block uppercase tracking-wider">{team.name}</span>
-                    <span className={`text-2xl font-black mt-1 block ${isTopTied ? 'text-game-neonCyan neon-text-cyan' : 'text-white/60'}`}>
+                    <span className={`text-2xl font-black mt-1 block ${isTopTied ? 'text-red-500 neon-text-red' : 'text-white/60'}`}>
                       {team.score}đ
                     </span>
                   </div>
                   <div className="w-full pt-3 border-t border-white/5 text-[9px] text-white/40 uppercase tracking-widest font-bold">
-                    {isTopTied ? '🌟 Xuất Sắc' : 'Đồng Đội'}
+                    {isTopTied ? '🤝 Đồng Điểm' : 'Đồng Đội'}
                   </div>
                 </div>
               );

@@ -109,6 +109,23 @@ export const useGameState = () => {
   // Game Phases
   const [gamePhase, setGamePhase] = useState<GamePhase>('lobby');
   const [unlockedQuestions, setUnlockedQuestions] = useState<boolean[]>(new Array(12).fill(false));
+
+  // References to keep states fresh across async callbacks (React stale closures bypass)
+  const unlockedQuestionsRef = useRef<boolean[]>(unlockedQuestions);
+  const teamsRef = useRef<Team[]>(teams);
+  const currentTeamIndexRef = useRef<number>(currentTeamIndex);
+
+  useEffect(() => {
+    unlockedQuestionsRef.current = unlockedQuestions;
+  }, [unlockedQuestions]);
+
+  useEffect(() => {
+    teamsRef.current = teams;
+  }, [teams]);
+
+  useEffect(() => {
+    currentTeamIndexRef.current = currentTeamIndex;
+  }, [currentTeamIndex]);
   const [activeQuestion, setActiveQuestion] = useState<Question | null>(null);
   const [questionStatus, setQuestionStatus] = useState<QuestionStatus>('idle');
   const [timeLeft, setTimeLeft] = useState<number>(30);
@@ -673,16 +690,17 @@ export const useGameState = () => {
     setBlockFlipInput(false);
 
     // Check if game is over (all 12 questions unlocked)
-    const allAnswered = unlockedQuestions.every(q => q === true);
+    const allAnswered = unlockedQuestionsRef.current.every(q => q === true);
     // Or if one team reached high points? Let's check when all 12 questions are solved
     if (allAnswered) {
       setGamePhase('victory');
       sounds.playVictory();
       addLog("--- TRÒ CHƠI KẾT THÚC! BẢNG VÀNG DANH DỰ ---", "special");
       
-      // Find the winner
-      const maxScore = Math.max(...teams.map(t => t.score));
-      const teamsWithMaxScore = teams.filter(t => t.score === maxScore);
+      // Find the winner using fresh ref values
+      const currentTeamsFresh = teamsRef.current;
+      const maxScore = Math.max(...currentTeamsFresh.map(t => t.score));
+      const teamsWithMaxScore = currentTeamsFresh.filter(t => t.score === maxScore);
       const hasUniqueWinner = teamsWithMaxScore.length === 1 && maxScore > 0;
 
       if (hasUniqueWinner) {
@@ -696,7 +714,8 @@ export const useGameState = () => {
     // Otherwise, shift to next team
     setCurrentTeamIndex(prev => {
       const nextIdx = (prev + 1) % 4;
-      addLog(`Lượt chơi tiếp theo thuộc về: ${teams[nextIdx].name}`, 'info');
+      const currentTeamsFresh = teamsRef.current;
+      addLog(`Lượt chơi tiếp theo thuộc về: ${currentTeamsFresh[nextIdx]?.name || `Nhóm ${nextIdx + 1}`}`, 'info');
       return nextIdx;
     });
 
