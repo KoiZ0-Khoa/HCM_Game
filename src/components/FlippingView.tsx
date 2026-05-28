@@ -47,16 +47,19 @@ export const FlippingView: React.FC<FlippingViewProps> = ({
       case 'plus3': return '/cards/Lá +3.png';
       case 'plus4': return '/cards/Lá +4.png';
       case 'plus5': return '/cards/Lá +5.png';
-      case 'bomb':  return '/cards/Lá bomb.png';
-      default:      return '/cards/Lá đặc biệt.png';
+      case 'bomb': return '/cards/Lá bomb.png';
+      case 'nuclear': return '/cards/Lá nuclear.png';
+      case 'loseAll': return '/cards/Mất niềm tin.png';
+      case 'changePoints': return '/cards/Lá chuyển hóa sức mạnh.png';
+      case 'rare': return '/cards/Lá đặc biệt.png';
+      default: return '/cards/Lá đặc biệt.png';
     }
   };
 
   return (
-    <div className={`max-w-6xl mx-auto px-4 py-6 space-y-6 relative transition-all duration-300 ${
-      screenShake ? 'animate-shake' : ''
-    }`}>
-      
+    <div className={`max-w-6xl mx-auto px-4 py-6 space-y-6 relative transition-all duration-300 ${screenShake ? 'animate-shake' : ''
+      }`}>
+
       {/* Nuclear warning flash overlay */}
       {nuclearAlert && (
         <div className="fixed inset-0 z-[100] animate-flash-red pointer-events-none flex items-center justify-center">
@@ -94,11 +97,10 @@ export const FlippingView: React.FC<FlippingViewProps> = ({
           <button
             disabled={blockFlipInput || temporaryScore === 0}
             onClick={onStopAndSecure}
-            className={`px-6 py-4 rounded-2xl font-extrabold uppercase tracking-wider text-sm transition-all duration-300 flex items-center gap-2 shadow-lg ${
-              temporaryScore > 0 && !blockFlipInput
-                ? 'bg-game-neonGold hover:bg-yellow-500 text-black cursor-pointer hover:shadow-[0_0_20px_rgba(255,184,0,0.35)]'
-                : 'bg-white/5 border border-white/5 text-white/20 cursor-not-allowed'
-            }`}
+            className={`px-6 py-4 rounded-2xl font-extrabold uppercase tracking-wider text-sm transition-all duration-300 flex items-center gap-2 shadow-lg ${temporaryScore > 0 && !blockFlipInput
+              ? 'bg-game-neonGold hover:bg-yellow-500 text-black cursor-pointer hover:shadow-[0_0_20px_rgba(255,184,0,0.35)]'
+              : 'bg-white/5 border border-white/5 text-white/20 cursor-not-allowed'
+              }`}
           >
             <Trophy className="w-4 h-4" /> Dừng Lại & Bảo Toàn
           </button>
@@ -110,17 +112,15 @@ export const FlippingView: React.FC<FlippingViewProps> = ({
         {cardsDeck.map((card, idx) => (
           <div key={card.id} className="aspect-[3/4] perspective-1000 relative">
             <div
-              className={`w-full h-full duration-500 preserve-3d relative cursor-pointer ${
-                card.isRevealed ? 'rotate-y-180' : ''
-              }`}
+              className={`w-full h-full duration-500 preserve-3d relative cursor-pointer ${card.isRevealed ? 'rotate-y-180' : ''
+                }`}
               onClick={() => onFlipCard(idx)}
             >
               {/* Card BACK (Covered) */}
-              <div className={`absolute inset-0 w-full h-full backface-hidden rounded-2xl border flex flex-col items-center justify-center p-4 transition-all duration-300 ${
-                blockFlipInput
-                  ? 'bg-game-cardBack border-white/5 cursor-not-allowed opacity-60'
-                  : 'bg-game-cardBack border-game-neonPurple/25 hover:border-game-neonPurple hover:bg-game-cardBackHover shadow-[0_0_10px_rgba(189,0,255,0.05)] hover:shadow-[0_0_15px_rgba(189,0,255,0.2)]'
-              }`}>
+              <div className={`absolute inset-0 w-full h-full backface-hidden rounded-2xl border flex flex-col items-center justify-center p-4 transition-all duration-300 ${blockFlipInput
+                ? 'bg-game-cardBack border-white/5 cursor-not-allowed opacity-60'
+                : 'bg-game-cardBack border-game-neonPurple/25 hover:border-game-neonPurple hover:bg-game-cardBackHover shadow-[0_0_10px_rgba(189,0,255,0.05)] hover:shadow-[0_0_15px_rgba(189,0,255,0.2)]'
+                }`}>
                 <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-3">
                   <Shield className="w-6 h-6 text-game-neonPurple/50" />
                 </div>
@@ -136,16 +136,15 @@ export const FlippingView: React.FC<FlippingViewProps> = ({
                   className="absolute inset-0 w-full h-full object-cover"
                   draggable={false}
                 />
-                
+
                 {/* Special Card Banner Overlay (For cards sharing Lá đặc biệt.png) */}
                 {['nuclear', 'loseAll', 'changePoints', 'rare'].includes(card.type) && (
                   <div className="absolute inset-x-0 bottom-0 bg-black/85 backdrop-blur-sm px-2 py-3 border-t border-white/10 text-center z-10 animate-fade-in">
-                    <span className={`text-[9px] font-black tracking-widest uppercase block mb-0.5 ${
-                      card.type === 'rare' ? 'text-yellow-400 neon-text-gold' :
+                    <span className={`text-[9px] font-black tracking-widest uppercase block mb-0.5 ${card.type === 'rare' ? 'text-yellow-400 neon-text-gold' :
                       card.type === 'changePoints' ? 'text-game-neonCyan neon-text-cyan' :
-                      card.type === 'nuclear' ? 'text-orange-400' :
-                      'text-red-500'
-                    }`}>
+                        card.type === 'nuclear' ? 'text-orange-400' :
+                          'text-red-500'
+                      }`}>
                       {card.type === 'rare' ? 'Thẻ Rare' : 'Thẻ Đặc Biệt'}
                     </span>
                     <h4 className="text-[11px] font-black text-white leading-tight uppercase line-clamp-1">
@@ -161,11 +160,10 @@ export const FlippingView: React.FC<FlippingViewProps> = ({
 
       {/* Bottom Display: Academic Context of the LAST Flipped Card */}
       {activeFlippedCard && (
-        <div className={`glass-panel p-5 rounded-2xl border-white/10 animate-fade-in space-y-2 ${
-          activeFlippedCard.type === 'bomb' || activeFlippedCard.type === 'loseAll'
-            ? 'bg-red-950/15 border-red-500/20'
-            : 'bg-game-neonGreen/5 border-game-neonGreen/20'
-        }`}>
+        <div className={`glass-panel p-5 rounded-2xl border-white/10 animate-fade-in space-y-2 ${activeFlippedCard.type === 'bomb' || activeFlippedCard.type === 'loseAll'
+          ? 'bg-red-950/15 border-red-500/20'
+          : 'bg-game-neonGreen/5 border-game-neonGreen/20'
+          }`}>
           <h4 className="text-xs font-bold uppercase tracking-widest flex items-center gap-1.5 opacity-70">
             <span>Ý Nghĩa Giáo Dục Cách Mạng: </span>
             <span className="font-extrabold text-white">"{activeFlippedCard.name}"</span>
