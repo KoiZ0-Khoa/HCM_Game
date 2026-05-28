@@ -10,7 +10,7 @@ const CARD_LIBRARY = [
     effectText: '+1 Điểm',
     description: 'Cộng thêm +1 điểm vào quỹ điểm tạm thời của lượt này. An toàn và dễ tích lũy!',
     academicText: 'Lắng nghe, hỗ trợ, tôn trọng nhau tạo dựng khối đoàn kết vững chắc từ những điều nhỏ bé nhất.',
-    image: '/cards/Lá +1.png',
+    image: '/cards/la_plus1.png',
     bgClass: 'bg-emerald-950/10 border-emerald-500/20 text-emerald-400 hover:border-emerald-400 hover:shadow-[0_0_20px_rgba(16,185,129,0.15)]',
     badgeClass: 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
   },
@@ -21,18 +21,18 @@ const CARD_LIBRARY = [
     effectText: '+2 Điểm',
     description: 'Cộng thêm +2 điểm vào quỹ điểm tạm thời lượt này. Sức mạnh nhân đôi nhờ phối hợp ăn ý!',
     academicText: 'Sự phối hợp đồng bộ giữa các cá nhân giúp nâng sức mạnh tập thể lên gấp bội.',
-    image: '/cards/Lá +2.png',
+    image: '/cards/la_plus2.png',
     bgClass: 'bg-emerald-950/10 border-emerald-500/20 text-emerald-400 hover:border-emerald-400 hover:shadow-[0_0_20px_rgba(16,185,129,0.15)]',
     badgeClass: 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
   },
   {
     type: 'plus3',
-    name: 'Sức Mạnh Nhân Dân',
+    name: 'Sức Mạng Nhân Dân',
     badge: 'Điểm Cộng Lớn',
     effectText: '+3 Điểm',
     description: 'Cộng thêm +3 điểm vào quỹ điểm tạm thời lượt này. Tạo ra một bước tiến vượt bậc về điểm số!',
     academicText: 'Cách mạng là sự nghiệp của quần chúng. Sức mạnh vĩ đại nhất nằm ở lòng dân.',
-    image: '/cards/Lá +3.png',
+    image: '/cards/la_plus3.png',
     bgClass: 'bg-emerald-950/15 border-emerald-500/35 text-emerald-300 hover:border-emerald-300 hover:shadow-[0_0_20px_rgba(16,185,129,0.2)]',
     badgeClass: 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 font-bold'
   },
@@ -43,7 +43,7 @@ const CARD_LIBRARY = [
     effectText: '+4 Điểm',
     description: 'Cộng thêm +4 điểm vào quỹ điểm tạm thời lượt này. Siêu điểm cộng giúp nhóm bạn tiến gần chiến thắng!',
     academicText: 'Đại đoàn kết chỉ bền vững khi toàn thể thành viên cùng chung sức hướng về lợi ích tối cao.',
-    image: '/cards/Lá +4.png',
+    image: '/cards/la_plus4.png',
     bgClass: 'bg-emerald-950/20 border-emerald-500/40 text-emerald-300 hover:border-emerald-300 hover:shadow-[0_0_25px_rgba(16,185,129,0.25)]',
     badgeClass: 'bg-emerald-500/25 text-emerald-200 border border-emerald-500/40 font-extrabold'
   },
@@ -54,7 +54,7 @@ const CARD_LIBRARY = [
     effectText: '+5 Điểm',
     description: 'Cộng thêm +5 điểm vào quỹ điểm tạm thời lượt này. Đỉnh cao điểm thưởng, nâng tầm vị thế nhóm!',
     academicText: 'Sức mạnh lớn nhất khi toàn dân tập hợp thành một khối thống nhất dưới sự dẫn dắt đúng đắn.',
-    image: '/cards/Lá +5.png',
+    image: '/cards/la_plus5.png',
     bgClass: 'bg-teal-950/20 border-teal-500/40 text-teal-300 hover:border-teal-300 hover:shadow-[0_0_25px_rgba(20,184,166,0.25)]',
     badgeClass: 'bg-teal-500/20 text-teal-200 border border-teal-500/40 font-extrabold'
   },
@@ -65,7 +65,7 @@ const CARD_LIBRARY = [
     effectText: 'Mất sạch điểm tạm thời của lượt đó.',
     description: 'Toàn bộ điểm tạm thời tích lũy của lượt này bị HỦY BỎ hoàn toàn và đưa về 0! Kết thúc lượt ngay.',
     academicText: 'Sự nghi kỵ, chia rẽ làm suy yếu tập thể. Điều này đi ngược tư tưởng Hồ Chí Minh về đại đoàn kết.',
-    image: '/cards/Lá bomb.png',
+    image: '/cards/la_bomb.png',
     bgClass: 'bg-rose-950/10 border-rose-500/20 text-rose-400 hover:border-rose-400 hover:shadow-[0_0_20px_rgba(244,63,94,0.15)]',
     badgeClass: 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
   },
@@ -76,7 +76,7 @@ const CARD_LIBRARY = [
     effectText: 'Trừ 3 điểm toàn bộ đối thủ.',
     description: 'Gây sát thương diện rộng! Tất cả 3 đội đối thủ còn lại đều bị TRỪ 3 điểm chính thức. Bạn được lật tiếp.',
     academicText: 'Gặp biến cố lớn, nếu thiếu đoàn kết thì không chỉ một cá nhân mà cả cộng đồng đều gánh chịu tổn thất.',
-    image: '/cards/Lá nuclear.png',
+    image: '/cards/la_nuclear.png',
     bgClass: 'bg-purple-950/10 border-purple-500/20 text-purple-400 hover:border-purple-400 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)]',
     badgeClass: 'bg-purple-500/10 text-purple-400 border border-purple-500/20'
   },
@@ -87,7 +87,7 @@ const CARD_LIBRARY = [
     effectText: 'Mất toàn bộ điểm số tích lũy từ đầu trận.',
     description: 'TOÀN BỘ ĐIỂM CHÍNH THỨC hiện tại của nhóm bạn biến mất (trở về 0đ). Quỹ điểm tạm thời cũng mất sạch.',
     academicText: 'Niềm tin là xi măng gắn kết lực lượng. Khi mất niềm tin, khối đoàn kết lập tức lung lay và đổ vỡ.',
-    image: '/cards/Mất niềm tin.png',
+    image: '/cards/mat_niem_tin.png',
     bgClass: 'bg-red-950/20 border-red-500/30 text-red-400 hover:border-red-400 hover:shadow-[0_0_20px_rgba(239,68,68,0.2)]',
     badgeClass: 'bg-red-500/10 text-red-400 border border-red-500/20 font-bold'
   },
@@ -98,7 +98,7 @@ const CARD_LIBRARY = [
     effectText: 'Đổi điểm với đối thủ bất kỳ.',
     description: 'Hoán đổi điểm số chính thức hiện tại của mình với một đối thủ bất kỳ để lật ngược tình thế.',
     academicText: 'Chiến thuật nhạy bén và tinh thần đoàn kết giúp tập thể lật ngược thế cờ trong hoàn cảnh éo le nhất.',
-    image: '/cards/Lá chuyển hóa sức mạnh.png',
+    image: '/cards/la_chuyen_hoa_suc_manh.png',
     bgClass: 'bg-cyan-950/10 border-cyan-500/20 text-cyan-400 hover:border-cyan-400 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)]',
     badgeClass: 'bg-cyan-500/10 text-cyan-400 border border-cyan-500/20'
   },
@@ -109,7 +109,7 @@ const CARD_LIBRARY = [
     effectText: 'Nhận 5 điểm hoặc mạo hiểm 50% Tráo / 50% Mất sạch.',
     description: 'Hai sự lựa chọn: An toàn dừng lật cộng 5đ chính thức, hoặc Mạo hiểm lật thẻ đặc biệt tráo điểm/mất sạch.',
     academicText: 'Thách thức bản lĩnh tập thể: Chọn lựa lợi ích an toàn trước mắt hay dấn thân vì mục tiêu đột phá vĩ đại.',
-    image: '/cards/Lá đặc biệt.png',
+    image: '/cards/la_dac_biet.png',
     bgClass: 'bg-amber-950/10 border-amber-500/30 text-amber-400 hover:border-amber-400 hover:shadow-[0_0_20px_rgba(245,158,11,0.2)]',
     badgeClass: 'bg-amber-500/10 text-amber-400 border border-amber-500/30 font-bold'
   }

@@ -42,17 +42,17 @@ export const FlippingView: React.FC<FlippingViewProps> = ({
 
   const getCardImage = (type: Card['type']): string => {
     switch (type) {
-      case 'plus1': return '/cards/Lá +1.png';
-      case 'plus2': return '/cards/Lá +2.png';
-      case 'plus3': return '/cards/Lá +3.png';
-      case 'plus4': return '/cards/Lá +4.png';
-      case 'plus5': return '/cards/Lá +5.png';
-      case 'bomb': return '/cards/Lá bomb.png';
-      case 'nuclear': return '/cards/Lá nuclear.png';
-      case 'loseAll': return '/cards/Mất niềm tin.png';
-      case 'changePoints': return '/cards/Lá chuyển hóa sức mạnh.png';
-      case 'rare': return '/cards/Lá đặc biệt.png';
-      default: return '/cards/Lá đặc biệt.png';
+      case 'plus1': return '/cards/la_plus1.png';
+      case 'plus2': return '/cards/la_plus2.png';
+      case 'plus3': return '/cards/la_plus3.png';
+      case 'plus4': return '/cards/la_plus4.png';
+      case 'plus5': return '/cards/la_plus5.png';
+      case 'bomb': return '/cards/la_bomb.png';
+      case 'nuclear': return '/cards/la_nuclear.png';
+      case 'loseAll': return '/cards/mat_niem_tin.png';
+      case 'changePoints': return '/cards/la_chuyen_hoa_suc_manh.png';
+      case 'rare': return '/cards/la_dac_biet.png';
+      default: return '/cards/la_dac_biet.png';
     }
   };
 
