@@ -1,5 +1,5 @@
 import React from 'react';
-import { Shield, Sparkles, RefreshCw, Trophy, AlertOctagon } from 'lucide-react';
+import { Shield, Sparkles, RefreshCw, Trophy, AlertOctagon, Zap, HelpCircle } from 'lucide-react';
 import type { Card, Team } from '../types';
 
 interface FlippingViewProps {
@@ -56,8 +56,112 @@ export const FlippingView: React.FC<FlippingViewProps> = ({
     }
   };
 
+  const getCardImpactDetails = (card: Card) => {
+    switch (card.type) {
+      case 'plus1':
+        return {
+          title: 'Điểm Cộng Cơ Bản (+1)',
+          impact: 'Cộng thêm +1 điểm vào quỹ điểm tạm thời của lượt này. An toàn và dễ tích lũy!',
+          actionTip: 'Nhóm bạn có thể quyết định lật tiếp hoặc bấm "Dừng Lại & Bảo Toàn" để nhận điểm chính thức.',
+          colorClass: 'border-game-neonGreen/30 shadow-[0_0_15px_rgba(57,255,20,0.1)] text-game-neonGreen',
+          badgeText: 'Điểm Cộng',
+          glowClass: 'neon-text-green'
+        };
+      case 'plus2':
+        return {
+          title: 'Gắn Kết Lực Lượng (+2)',
+          impact: 'Cộng thêm +2 điểm vào quỹ điểm tạm thời lượt này. Sức mạnh nhân đôi nhờ phối hợp ăn ý!',
+          actionTip: 'Số điểm khá tốt. Bạn muốn mạo hiểm lật tiếp để đột phá hay bảo toàn điểm số để giữ an toàn?',
+          colorClass: 'border-game-neonGreen/30 shadow-[0_0_15px_rgba(57,255,20,0.1)] text-game-neonGreen',
+          badgeText: 'Điểm Cộng',
+          glowClass: 'neon-text-green'
+        };
+      case 'plus3':
+        return {
+          title: 'Sức Mạch Nhân Dân (+3)',
+          impact: 'Cộng thêm +3 điểm vào quỹ điểm tạm thời lượt này. Tạo ra một bước tiến vượt bậc về điểm số!',
+          actionTip: 'Điểm số tích lũy rất cao. Hãy thống nhất ý chí toàn đội xem nên tiếp tục thử thách hay bảo toàn.',
+          colorClass: 'border-game-neonGreen/30 shadow-[0_0_15px_rgba(57,255,20,0.1)] text-game-neonGreen',
+          badgeText: 'Điểm Cộng Lớn',
+          glowClass: 'neon-text-green'
+        };
+      case 'plus4':
+        return {
+          title: 'Đồng Lòng Vì Mục Tiêu Chung (+4)',
+          impact: 'Cộng thêm +4 điểm vào quỹ điểm tạm thời lượt này. Siêu điểm cộng giúp nhóm bạn tiến gần chiến thắng!',
+          actionTip: 'Số điểm lớn có thể thay đổi cục diện trận đấu. Hãy thảo luận thật kỹ trước khi lật thêm!',
+          colorClass: 'border-game-neonGreen/30 shadow-[0_0_15px_rgba(57,255,20,0.1)] text-game-neonGreen',
+          badgeText: 'Siêu Điểm Cộng',
+          glowClass: 'neon-text-green'
+        };
+      case 'plus5':
+        return {
+          title: 'Đại Đoàn Kết Toân Dân (+5)',
+          impact: 'Cộng thêm +5 điểm vào quỹ điểm tạm thời lượt này. Đỉnh cao điểm thưởng, nâng tầm vị thế nhóm!',
+          actionTip: 'Số điểm cực đại từ một thẻ bài! Khuyến nghị cao nên bấm nút "Dừng Lại & Bảo Toàn" ngay lập tức.',
+          colorClass: 'border-game-neonGreen/30 shadow-[0_0_15px_rgba(57,255,20,0.15)] text-game-neonGreen',
+          badgeText: 'Cực Đại Điểm Cộng',
+          glowClass: 'neon-text-green'
+        };
+      case 'bomb':
+        return {
+          title: 'Chia Rẽ Nội Bộ (BOM)',
+          impact: 'Toàn bộ điểm tạm thời tích lũy của lượt này bị HỦY BỎ hoàn toàn và đưa về 0!',
+          actionTip: 'Lượt chơi kết thúc lập tức. Quyền lật thẻ chuyển sang đội đối thủ tiếp theo. Bài học về sự chia rẽ!',
+          colorClass: 'border-red-500/40 shadow-[0_0_15px_rgba(239,68,68,0.15)] text-red-500',
+          badgeText: 'BOM HỦY DIỆT',
+          glowClass: 'neon-text-red'
+        };
+      case 'nuclear':
+        return {
+          title: 'Khủng Hoảng Chung (Nuclear)',
+          impact: 'Gây sát thương diện rộng! Tất cả 3 đội đối thủ còn lại đều bị TRỪ 3 điểm chính thức.',
+          actionTip: 'Điểm tạm thời lượt này được bảo toàn. Nhóm bạn tiếp tục có thêm 1 lượt lật thẻ bài nữa!',
+          colorClass: 'border-game-neonPurple/40 shadow-[0_0_15px_rgba(189,0,255,0.15)] text-game-neonPurple',
+          badgeText: 'TẤN CÔNG DIỆN RỘNG',
+          glowClass: 'neon-text-purple'
+        };
+      case 'loseAll':
+        return {
+          title: 'Mất Niềm Tin (Trắng Tay)',
+          impact: 'TOÀN BỘ ĐIỂM CHÍNH THỨC hiện tại của nhóm bạn biến mất (trở về 0đ). Quỹ điểm tạm thời cũng mất sạch.',
+          actionTip: 'Lượt lật kết thúc ngay lập tức. Đây là hình phạt nặng nhất trong đấu trường, hãy cực kỳ cẩn trọng!',
+          colorClass: 'border-red-500/40 shadow-[0_0_15px_rgba(239,68,68,0.15)] text-red-500',
+          badgeText: 'HÌNH PHẠT CỰC NẶNG',
+          glowClass: 'neon-text-red'
+        };
+      case 'changePoints':
+        return {
+          title: 'Chuyển Hóa Sức Mạng (Tráo Điểm)',
+          impact: 'Kích hoạt vòng hoán đổi! Nhóm bạn có đặc quyền TRÁO ĐỔI ĐIỂM SỐ CHÍNH THỨC với một nhóm đối thủ tùy chọn.',
+          actionTip: 'Hãy chọn nhóm đang có điểm số cao nhất để đổi điểm, giúp nhóm vươn lên vị trí dẫn đầu!',
+          colorClass: 'border-game-neonCyan/40 shadow-[0_0_15px_rgba(0,240,255,0.15)] text-game-neonCyan',
+          badgeText: 'TRÁO ĐỔI ĐIỂM SỐ',
+          glowClass: 'neon-text-cyan'
+        };
+      case 'rare':
+        return {
+          title: 'Cơ Hội Đoàn Kết (Rare Card)',
+          impact: 'Thẻ đặc biệt của Khối liên minh mang lại cơ hội ngã rẽ định mệnh cho nhóm bạn.',
+          actionTip: 'Lựa chọn 1: Ăn chắc +5đ chính thức & dừng lượt. Lựa chọn 2: Mạo hiểm 50% tráo điểm / 50% mất sạch điểm chính thức.',
+          colorClass: 'border-yellow-400/40 shadow-[0_0_15px_rgba(255,215,0,0.15)] text-yellow-400',
+          badgeText: 'THẺ SIÊU ĐẶC BIỆT',
+          glowClass: 'neon-text-gold'
+        };
+      default:
+        return {
+          title: 'Thẻ Bài Nhân Phẩm',
+          impact: 'Chứa đựng những hiệu ứng đặc sắc làm thay đổi điểm số trong game.',
+          actionTip: 'Xem kỹ tác dụng thẻ bài trên máy chiếu.',
+          colorClass: 'border-white/20 text-white',
+          badgeText: 'THẺ BÀI',
+          glowClass: ''
+        };
+    }
+  };
+
   return (
-    <div className={`max-w-6xl mx-auto px-4 py-6 space-y-6 relative transition-all duration-300 ${screenShake ? 'animate-shake' : ''
+    <div className={`max-w-7xl mx-auto px-4 py-6 space-y-6 relative transition-all duration-300 ${screenShake ? 'animate-shake' : ''
       }`}>
 
       {/* Nuclear warning flash overlay */}
@@ -107,72 +211,151 @@ export const FlippingView: React.FC<FlippingViewProps> = ({
         </div>
       </div>
 
-      {/* Cards 3D Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 py-2">
-        {cardsDeck.map((card, idx) => (
-          <div key={card.id} className="aspect-[3/4] perspective-1000 relative">
-            <div
-              className={`w-full h-full duration-500 preserve-3d relative cursor-pointer ${card.isRevealed ? 'rotate-y-180' : ''
-                }`}
-              onClick={() => onFlipCard(idx)}
-            >
-              {/* Card BACK (Covered) */}
-              <div className={`absolute inset-0 w-full h-full backface-hidden rounded-2xl border flex flex-col items-center justify-center p-4 transition-all duration-300 ${blockFlipInput
-                ? 'bg-game-cardBack border-white/5 cursor-not-allowed opacity-60'
-                : 'bg-game-cardBack border-game-neonPurple/25 hover:border-game-neonPurple hover:bg-game-cardBackHover shadow-[0_0_10px_rgba(189,0,255,0.05)] hover:shadow-[0_0_15px_rgba(189,0,255,0.2)]'
-                }`}>
-                <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-3">
-                  <Shield className="w-6 h-6 text-game-neonPurple/50" />
-                </div>
-                <span className="text-xs font-bold text-white/40 tracking-widest uppercase">Mặt Sau</span>
-                <span className="text-[10px] text-game-neonPurple/40 font-mono mt-1">#{(card.id + 1).toString().padStart(2, '0')}</span>
-              </div>
+      {/* Side-by-Side Arena Splits Layout (Highly optimized for PC/Projector screen to prevent vertical overflow) */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        
+        {/* Left Side: 12-Card Grid (lg:col-span-7) */}
+        <div className="lg:col-span-7 space-y-4">
+          <div className="glass-panel p-5 rounded-3xl border border-white/10 bg-white/5 shadow-[0_0_20px_rgba(255,255,255,0.02)]">
+            <div className="flex items-center justify-between mb-4 pb-2 border-b border-white/10">
+              <span className="text-xs text-game-neonPurple tracking-wider font-extrabold uppercase block">
+                Bản đồ nhân phẩm (12 lá bài)
+              </span>
+              <span className="text-[10px] text-white/40 uppercase font-mono">
+                Lượt: {teamName}
+              </span>
+            </div>
 
-              {/* Card FRONT (Revealed) */}
-              <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-2xl overflow-hidden border-2 border-white/20 flex flex-col justify-end">
-                <img
-                  src={getCardImage(card.type)}
-                  alt={card.name}
-                  className="absolute inset-0 w-full h-full object-cover"
-                  draggable={false}
-                />
-
-                {/* Special Card Banner Overlay (For cards sharing Lá đặc biệt.png) */}
-                {['nuclear', 'loseAll', 'changePoints', 'rare'].includes(card.type) && (
-                  <div className="absolute inset-x-0 bottom-0 bg-black/85 backdrop-blur-sm px-2 py-3 border-t border-white/10 text-center z-10 animate-fade-in">
-                    <span className={`text-[9px] font-black tracking-widest uppercase block mb-0.5 ${card.type === 'rare' ? 'text-yellow-400 neon-text-gold' :
-                      card.type === 'changePoints' ? 'text-game-neonCyan neon-text-cyan' :
-                        card.type === 'nuclear' ? 'text-orange-400' :
-                          'text-red-500'
+            <div className="grid grid-cols-4 gap-4">
+              {cardsDeck.map((card, idx) => (
+                <div key={card.id} className="h-28 sm:h-36 md:h-40 lg:h-44 aspect-[2/3] max-h-[15vh] md:max-h-[17vh] mx-auto perspective-1000 relative">
+                  <div
+                    className={`w-full h-full duration-500 preserve-3d relative cursor-pointer ${card.isRevealed ? 'rotate-y-180' : ''
+                      }`}
+                    onClick={() => onFlipCard(idx)}
+                  >
+                    {/* Card BACK (Covered) */}
+                    <div className={`absolute inset-0 w-full h-full backface-hidden rounded-2xl border flex flex-col items-center justify-center p-4 transition-all duration-300 ${blockFlipInput
+                      ? 'bg-game-cardBack border-white/5 cursor-not-allowed opacity-60'
+                      : 'bg-game-cardBack border-game-neonPurple/25 hover:border-game-neonPurple hover:bg-game-cardBackHover shadow-[0_0_10px_rgba(189,0,255,0.05)] hover:shadow-[0_0_15px_rgba(189,0,255,0.2)]'
                       }`}>
-                      {card.type === 'rare' ? 'Thẻ Rare' : 'Thẻ Đặc Biệt'}
-                    </span>
-                    <h4 className="text-[11px] font-black text-white leading-tight uppercase line-clamp-1">
-                      {card.name.replace(' (Rare)', '')}
-                    </h4>
+                      <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-2.5">
+                        <Shield className="w-5 h-5 text-game-neonPurple/50" />
+                      </div>
+                      <span className="text-[10px] font-bold text-white/40 tracking-widest uppercase">Mặt Sau</span>
+                      <span className="text-[11px] text-game-neonCyan font-mono font-bold tracking-wider mt-1">#{(card.id + 1).toString().padStart(2, '0')}</span>
+                    </div>
+
+                    {/* Card FRONT (Revealed) */}
+                    <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-2xl overflow-hidden border-2 border-white/20">
+                      <img
+                        src={getCardImage(card.type)}
+                        alt={card.name}
+                        className="absolute inset-0 w-full h-full object-fill bg-[#0a0d1a]"
+                        draggable={false}
+                      />
+
+                      {/* Special Card Banner Overlay */}
+                      {['nuclear', 'loseAll', 'changePoints', 'rare'].includes(card.type) && (
+                        <div className="absolute inset-x-0 bottom-0 bg-black/90 backdrop-blur-sm px-1.5 py-2 border-t border-white/10 text-center z-10 animate-fade-in text-[10px] font-black text-white uppercase tracking-wider line-clamp-1">
+                          {card.type === 'rare' ? 'Thẻ Rare' : 'Đặc Biệt'}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                )}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
-
-      {/* Bottom Display: Academic Context of the LAST Flipped Card */}
-      {activeFlippedCard && (
-        <div className={`glass-panel p-5 rounded-2xl border-white/10 animate-fade-in space-y-2 ${activeFlippedCard.type === 'bomb' || activeFlippedCard.type === 'loseAll'
-          ? 'bg-red-950/15 border-red-500/20'
-          : 'bg-game-neonGreen/5 border-game-neonGreen/20'
-          }`}>
-          <h4 className="text-xs font-bold uppercase tracking-widest flex items-center gap-1.5 opacity-70">
-            <span>Ý Nghĩa Giáo Dục Cách Mạng: </span>
-            <span className="font-extrabold text-white">"{activeFlippedCard.name}"</span>
-          </h4>
-          <p className="text-sm text-white/90 leading-relaxed font-normal">
-            {activeFlippedCard.academicText}
-          </p>
         </div>
-      )}
+
+        {/* Right Side: Active Card Detail Panel (lg:col-span-5) */}
+        <div className="lg:col-span-5">
+          {activeFlippedCard ? (() => {
+            const details = getCardImpactDetails(activeFlippedCard);
+            return (
+              <div className={`glass-panel p-5 rounded-3xl border animate-fade-in transition-all duration-300 bg-gradient-to-br from-[#0c0f1d] to-[#080a14] space-y-4 shadow-xl ${details.colorClass}`}>
+                
+                {/* Visual Section: Large Card image + Score badge */}
+                <div className="flex flex-row items-center justify-center gap-6">
+                  {/* Magnified Card Image */}
+                  <div className="w-28 sm:w-36 aspect-[2/3] flex-shrink-0 relative rounded-2xl overflow-hidden border-2 border-white/30 shadow-[0_0_20px_rgba(255,255,255,0.08)] bg-[#0a0d1a]">
+                    <img
+                      src={getCardImage(activeFlippedCard.type)}
+                      alt={activeFlippedCard.name}
+                      className="w-full h-full object-fill"
+                      draggable={false}
+                    />
+                    {['nuclear', 'loseAll', 'changePoints', 'rare'].includes(activeFlippedCard.type) && (
+                      <div className="absolute inset-x-0 bottom-0 bg-black/90 px-1 py-1 border-t border-white/10 text-center z-10 text-[9px] font-black text-white uppercase tracking-wider">
+                        {activeFlippedCard.type === 'rare' ? 'Thẻ Rare' : 'Đặc Biệt'}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Text labels */}
+                  <div className="space-y-2">
+                    <span className={`px-2.5 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider bg-white/10 ${details.colorClass} block w-max`}>
+                      {details.badgeText}
+                    </span>
+                    <h3 className={`text-base font-black uppercase leading-tight ${details.colorClass} ${details.glowClass}`}>
+                      {activeFlippedCard.name}
+                    </h3>
+                    <div className="text-[10px] text-white/40 uppercase font-mono">
+                      Loại thẻ: {activeFlippedCard.type.startsWith('plus') ? 'Cộng điểm' : 'Hiệu ứng đặc biệt'}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Explanations vertical stacked container */}
+                <div className="space-y-3 pt-3 border-t border-white/10">
+                  <div className="space-y-1">
+                    <h4 className="text-xs font-black text-white flex items-center gap-1.5">
+                      <Zap className="w-4 h-4" /> Hiệu ứng game:
+                    </h4>
+                    <p className="text-xs text-white/95 font-semibold bg-white/5 px-3 py-2.5 rounded-xl border border-white/5 leading-relaxed">
+                      {details.impact}
+                    </p>
+                  </div>
+
+                  <div className="space-y-1">
+                    <h4 className="text-[10px] font-black uppercase tracking-wider text-white/50">Ảnh hưởng & hành động:</h4>
+                    <p className="text-xs text-game-neonGold font-semibold italic">
+                      👉 {details.actionTip}
+                    </p>
+                  </div>
+
+                  <div className="space-y-1 border-t border-white/10 pt-3">
+                    <h4 className="text-xs font-black uppercase text-white/70 tracking-wider flex items-center gap-1.5">
+                      <HelpCircle className="w-3.5 h-3.5" /> Ý nghĩa giáo dục & lịch sử
+                    </h4>
+                    <p className="text-xs text-white/80 leading-relaxed italic bg-white/5 p-3 rounded-2xl border border-white/5">
+                      "{activeFlippedCard.academicText}"
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+            );
+          })() : (
+            /* Placeholder panel when no card is flipped yet */
+            <div className="glass-panel p-6 rounded-3xl border border-white/10 bg-white/5 text-center py-16 space-y-4 h-full flex flex-col justify-center items-center">
+              <div className="w-14 h-14 rounded-full bg-white/5 border border-white/10 flex items-center justify-center animate-pulse">
+                <Sparkles className="w-7 h-7 text-game-neonPurple" />
+              </div>
+              <div className="space-y-2">
+                <h4 className="text-sm font-black text-white uppercase tracking-wider">
+                  Đang Chờ Lật Thẻ
+                </h4>
+                <p className="text-xs text-white/50 max-w-xs leading-relaxed">
+                  Nhóm <span className="text-game-neonPurple font-bold">{teamName}</span> vui lòng lật một ô thẻ ở **Bản đồ bên trái** để kiểm tra nhân phẩm tích lũy điểm!
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+
+      </div>
 
       {/* 1. Modal Change Points (Swap points) */}
       {showSwapModal && (
