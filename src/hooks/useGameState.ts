@@ -396,7 +396,7 @@ export const useGameState = () => {
     setQuestionStatus('answering');
     setTimeLeft(discussionTimeLimit);
     setGamePhase('question');
-    addLog(`${teams[currentTeamIndex].name} đã chọn câu hỏi ô chữ ${q.letter}.`, 'info');
+    addLog(`${teams[currentTeamIndex].name} đã chọn câu hỏi số ${q.letter}.`, 'info');
   };
 
   // Submit Answer
@@ -406,7 +406,7 @@ export const useGameState = () => {
     if (isCorrect) {
       setQuestionStatus('correct');
       sounds.playCorrect();
-      addLog(`Chính xác! ${teams[currentTeamIndex].name} xuất sắc trả lời đúng câu hỏi ${activeQuestion?.letter}.`, 'success');
+      addLog(`Chính xác! ${teams[currentTeamIndex].name} xuất sắc trả lời đúng câu hỏi số ${activeQuestion?.letter}.`, 'success');
       
       // Lock the question immediately
       if (activeQuestion) {
@@ -423,7 +423,7 @@ export const useGameState = () => {
     } else {
       setQuestionStatus('incorrect');
       sounds.playIncorrect();
-      addLog(`Sai rồi! ${teams[currentTeamIndex].name} trả lời chưa chính xác câu hỏi ${activeQuestion?.letter}.`, 'danger');
+      addLog(`Sai rồi! ${teams[currentTeamIndex].name} trả lời chưa chính xác câu hỏi số ${activeQuestion?.letter}.`, 'danger');
 
       // Lock the question
       if (activeQuestion) {

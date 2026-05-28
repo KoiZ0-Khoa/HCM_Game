@@ -10,7 +10,7 @@ export interface Question {
 export const questions: Question[] = [
   {
     id: 1,
-    letter: "A",
+    letter: "1",
     question: "Theo Hồ Chí Minh, chủ thể của khối đại đoàn kết toàn dân tộc là ai?",
     options: [
       "Giai cấp công nhân",
@@ -23,7 +23,7 @@ export const questions: Question[] = [
   },
   {
     id: 2,
-    letter: "B",
+    letter: "2",
     question: "Trong tư tưởng Hồ Chí Minh, “nhân dân” được hiểu như thế nào?",
     options: [
       "Chỉ gồm công nhân và nông dân",
@@ -36,7 +36,7 @@ export const questions: Question[] = [
   },
   {
     id: 3,
-    letter: "C",
+    letter: "3",
     question: "Ý nào sau đây thể hiện đúng quan điểm đoàn kết của Hồ Chí Minh?",
     options: [
       "Đoàn kết càng hẹp càng dễ quản lý",
@@ -49,7 +49,7 @@ export const questions: Question[] = [
   },
   {
     id: 4,
-    letter: "D",
+    letter: "4",
     question: "Đại đoàn kết toàn dân tộc phải dựa trên mục tiêu chung nào?",
     options: [
       "Độc lập dân tộc, thống nhất Tổ quốc, tự do và hạnh phúc của nhân dân",
@@ -62,7 +62,7 @@ export const questions: Question[] = [
   },
   {
     id: 5,
-    letter: "E",
+    letter: "5",
     question: "Vì sao Hồ Chí Minh nhấn mạnh khối đại đoàn kết toàn dân tộc cần có nền tảng vững chắc?",
     options: [
       "Vì đoàn kết chỉ cần hình thức bên ngoài",
@@ -75,7 +75,7 @@ export const questions: Question[] = [
   },
   {
     id: 6,
-    letter: "F",
+    letter: "6",
     question: "Hồ Chí Minh ví nền tảng của khối đại đoàn kết toàn dân tộc giống với hình ảnh nào?",
     options: [
       "Ngọn đèn và ánh sáng",
@@ -88,10 +88,10 @@ export const questions: Question[] = [
   },
   {
     id: 7,
-    letter: "G",
+    letter: "7",
     question: "Trong liên minh công nhân – nông dân – trí thức, giai cấp công nhân được nhấn mạnh với đặc điểm nào?",
     options: [
-      "Đông đảo nhất trong xã hội Việt Nam truyền thống",
+      "Đong đảo nhất trong xã hội Việt Nam truyền thống",
       "Có tinh thần cách mạng, tính tổ chức và kỷ luật cao",
       "Chỉ có vai trò trong sản xuất nông nghiệp",
       "Chủ yếu đóng góp về văn hóa nghệ thuật"
@@ -101,7 +101,7 @@ export const questions: Question[] = [
   },
   {
     id: 8,
-    letter: "H",
+    letter: "8",
     question: "Đội ngũ trí thức có vai trò gì trong khối đại đoàn kết?",
     options: [
       "Đóng góp về tư tưởng, khoa học, kỹ thuật, giáo dục, văn hóa và quản lý xã hội",
@@ -114,7 +114,7 @@ export const questions: Question[] = [
   },
   {
     id: 9,
-    letter: "I",
+    letter: "9",
     question: "Câu nói “Đoàn kết, đoàn kết, đại đoàn kết/ Thành công, thành công, đại thành công” thể hiện điều gì?",
     options: [
       "Vai trò của kinh tế",
@@ -127,7 +127,7 @@ export const questions: Question[] = [
   },
   {
     id: 10,
-    letter: "J",
+    letter: "10",
     question: "Theo Hồ Chí Minh, Đảng giữ vai trò gì trong Mặt trận dân tộc thống nhất?",
     options: [
       "Chỉ lãnh đạo",
@@ -140,7 +140,7 @@ export const questions: Question[] = [
   },
   {
     id: 11,
-    letter: "K",
+    letter: "11",
     question: "Theo Hồ Chí Minh, yếu tố “hạt nhân” trong khối đại đoàn kết toàn dân tộc là gì?",
     options: [
       "Nhân dân lao động",
@@ -153,7 +153,7 @@ export const questions: Question[] = [
   },
   {
     id: 12,
-    letter: "L",
+    letter: "12",
     question: "Theo Hồ Chí Minh, nếu dân tộc không đoàn kết thì điều gì sẽ xảy ra?",
     options: [
       "Đất nước phát triển chậm",

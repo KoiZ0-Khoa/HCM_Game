@@ -67,7 +67,7 @@ export const QuestionModal: React.FC<QuestionModalProps> = ({
             <div>
               <span className="text-[10px] text-game-neonPurple tracking-widest font-bold uppercase block">Phòng Giải Đáp</span>
               <h2 className="text-xl font-extrabold uppercase text-white tracking-wide">
-                Câu Hỏi Ô {question.letter}
+                Câu Hỏi Số {question.letter}
               </h2>
             </div>
           </div>

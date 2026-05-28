@@ -17,7 +17,7 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
   const [teamSlot, setTeamSlot] = useState<number | null>(null);
   const [joined, setJoined] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  
+
   // Sockets & Game State
   const socketRef = useRef<Socket | null>(null);
   const [syncedState, setSyncedState] = useState<any>(null);
@@ -25,8 +25,8 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
   // Setup connection to WebSocket server
   useEffect(() => {
     // Dynamically connect to the backend socket server (always port 3000 in local dev environment)
-    const serverUrl = window.location.port 
-      ? `${window.location.protocol}//${window.location.hostname}:3000` 
+    const serverUrl = window.location.port
+      ? `${window.location.protocol}//${window.location.hostname}:3000`
       : window.location.origin;
 
     console.log('Connecting mobile client to Socket Server:', serverUrl);
@@ -62,7 +62,7 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
       setErrorMessage('Vui lòng nhập đầy đủ mã phòng, tên đội và chọn số đội!');
       return;
     }
-    
+
     setErrorMessage(null);
     if (socketRef.current) {
       socketRef.current.emit('player-join-room', {
@@ -92,7 +92,7 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
   const activeTeam = syncedState?.teams[syncedState.currentTeamIndex];
 
   // Helper lists
-  const letters = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"];
+  const letters = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"];
 
   const getCardImage = (type: Card['type']): string => {
     switch (type) {
@@ -216,95 +216,93 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
 
 
   return (
-    <div className={`flex-1 w-full mx-auto px-4 py-6 flex flex-col justify-start min-h-[85vh] space-y-6 transition-all duration-500 ${
-      joined && syncedState && syncedState.gamePhase === 'flipping'
+    <div className={`flex-1 w-full mx-auto px-4 py-6 flex flex-col justify-start min-h-[85vh] space-y-6 transition-all duration-500 ${joined && syncedState && syncedState.gamePhase === 'flipping'
         ? 'max-w-7xl'
         : 'max-w-xl md:max-w-2xl'
-    }`}>
+      }`}>
 
-      
+
       {/* 1. LOBBY LOGIN INTERFACE */}
       {!joined ? (
         <div className="w-full max-w-md mx-auto my-auto">
           <form onSubmit={handleJoin} className="glass-panel p-6 rounded-3xl border-game-neonPurple/30 space-y-5 shadow-2xl">
             <div className="text-center space-y-1">
-            <h2 className="text-2xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-r from-game-neonPurple to-game-neonCyan">
-              Tay Cầm Đồng Bộ
-            </h2>
-            <p className="text-[10px] text-white/50 tracking-widest uppercase">Nhập mã phòng để kết nối</p>
-          </div>
-
-          {errorMessage && (
-            <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-xs text-red-400 font-bold text-center">
-              ⚠️ {errorMessage}
-            </div>
-          )}
-
-          <div className="space-y-4">
-            {/* Room Code */}
-            <div className="space-y-1">
-              <label className="text-[10px] text-white/40 font-bold uppercase tracking-wider block">Mã Phòng Chơi</label>
-              <input
-                type="text"
-                value={roomId}
-                onChange={(e) => setRoomId(e.target.value.toUpperCase())}
-                className="w-full bg-white/5 border border-white/10 focus:border-game-neonPurple focus:ring-1 focus:ring-game-neonPurple/50 rounded-xl px-4 py-3 text-center text-lg font-bold tracking-widest outline-none transition"
-                placeholder="Ví dụ: 1605"
-                maxLength={6}
-                required
-              />
+              <h2 className="text-2xl font-black uppercase text-transparent bg-clip-text bg-gradient-to-r from-game-neonPurple to-game-neonCyan">
+                Tay Cầm Đồng Bộ
+              </h2>
+              <p className="text-[10px] text-white/50 tracking-widest uppercase">Nhập mã phòng để kết nối</p>
             </div>
 
-            {/* Team Name */}
-            <div className="space-y-1">
-              <label className="text-[10px] text-white/40 font-bold uppercase tracking-wider block">Tên Nhóm Của Bạn</label>
-              <input
-                type="text"
-                value={teamName}
-                onChange={(e) => setTeamName(e.target.value)}
-                className="w-full bg-white/5 border border-white/10 focus:border-game-neonPurple focus:ring-1 focus:ring-game-neonPurple/50 rounded-xl px-4 py-3 text-sm font-semibold outline-none transition"
-                placeholder="Nhập tên nhóm độc lạ..."
-                maxLength={20}
-                required
-              />
-            </div>
+            {errorMessage && (
+              <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/20 text-xs text-red-400 font-bold text-center">
+                ⚠️ {errorMessage}
+              </div>
+            )}
 
-            {/* Team Slot selection */}
-            <div className="space-y-2">
-              <label className="text-[10px] text-white/40 font-bold uppercase tracking-wider block">Chọn Vị Trí Đội</label>
-              <div className="grid grid-cols-2 gap-2">
-                {[0, 1, 2, 3].map((slotIdx) => (
-                  <button
-                    key={slotIdx}
-                    type="button"
-                    onClick={() => setTeamSlot(slotIdx)}
-                    className={`py-3 rounded-xl border text-xs font-extrabold uppercase transition-all duration-300 ${
-                      teamSlot === slotIdx
-                        ? 'bg-game-neonPurple/20 border-game-neonPurple text-game-neonPurple neon-border-purple'
-                        : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10'
-                    }`}
-                  >
-                    Đội {slotIdx + 1}
-                  </button>
-                ))}
+            <div className="space-y-4">
+              {/* Room Code */}
+              <div className="space-y-1">
+                <label className="text-[10px] text-white/40 font-bold uppercase tracking-wider block">Mã Phòng Chơi</label>
+                <input
+                  type="text"
+                  value={roomId}
+                  onChange={(e) => setRoomId(e.target.value.toUpperCase())}
+                  className="w-full bg-white/5 border border-white/10 focus:border-game-neonPurple focus:ring-1 focus:ring-game-neonPurple/50 rounded-xl px-4 py-3 text-center text-lg font-bold tracking-widest outline-none transition"
+                  placeholder="Ví dụ: 1605"
+                  maxLength={6}
+                  required
+                />
+              </div>
+
+              {/* Team Name */}
+              <div className="space-y-1">
+                <label className="text-[10px] text-white/40 font-bold uppercase tracking-wider block">Tên Nhóm Của Bạn</label>
+                <input
+                  type="text"
+                  value={teamName}
+                  onChange={(e) => setTeamName(e.target.value)}
+                  className="w-full bg-white/5 border border-white/10 focus:border-game-neonPurple focus:ring-1 focus:ring-game-neonPurple/50 rounded-xl px-4 py-3 text-sm font-semibold outline-none transition"
+                  placeholder="Nhập tên nhóm độc lạ..."
+                  maxLength={20}
+                  required
+                />
+              </div>
+
+              {/* Team Slot selection */}
+              <div className="space-y-2">
+                <label className="text-[10px] text-white/40 font-bold uppercase tracking-wider block">Chọn Vị Trí Đội</label>
+                <div className="grid grid-cols-2 gap-2">
+                  {[0, 1, 2, 3].map((slotIdx) => (
+                    <button
+                      key={slotIdx}
+                      type="button"
+                      onClick={() => setTeamSlot(slotIdx)}
+                      className={`py-3 rounded-xl border text-xs font-extrabold uppercase transition-all duration-300 ${teamSlot === slotIdx
+                          ? 'bg-game-neonPurple/20 border-game-neonPurple text-game-neonPurple neon-border-purple'
+                          : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10'
+                        }`}
+                    >
+                      Đội {slotIdx + 1}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="flex gap-2 pt-2">
-            <button
-              type="button"
-              onClick={onLeave}
-              className="flex-1 py-3 bg-white/5 border border-white/10 hover:bg-white/10 rounded-xl text-xs font-bold text-white/60 transition"
-            >
-              Quay Lại
-            </button>
-            <button
-              type="submit"
-              className="flex-1 py-3 bg-gradient-to-r from-game-neonPurple to-game-neonCyan text-black font-extrabold uppercase tracking-wider rounded-xl hover:shadow-[0_0_15px_rgba(0,240,255,0.2)] transition duration-300"
-            >
-              Tham Gia
-            </button>
+            <div className="flex gap-2 pt-2">
+              <button
+                type="button"
+                onClick={onLeave}
+                className="flex-1 py-3 bg-white/5 border border-white/10 hover:bg-white/10 rounded-xl text-xs font-bold text-white/60 transition"
+              >
+                Quay Lại
+              </button>
+              <button
+                type="submit"
+                className="flex-1 py-3 bg-gradient-to-r from-game-neonPurple to-game-neonCyan text-black font-extrabold uppercase tracking-wider rounded-xl hover:shadow-[0_0_15px_rgba(0,240,255,0.2)] transition duration-300"
+              >
+                Tham Gia
+              </button>
             </div>
           </form>
         </div>
@@ -322,7 +320,7 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
       ) : (
         /* 3. SYNCED MOBILE GAMEPAD CONTROLLERS */
         <div className="space-y-4 flex-1 flex flex-col justify-between">
-          
+
           {/* Quick HUD Card */}
           <div className="glass-panel p-5 rounded-2xl flex items-center justify-between border-white/10 bg-white/5 shadow-md">
             <div className="flex items-center gap-3">
@@ -340,11 +338,10 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
           </div>
 
           {/* TURN STATE NOTIFIER */}
-          <div className={`p-5 rounded-2xl border text-center transition-all ${
-            isMyTurn 
-              ? 'bg-game-neonCyan/15 border-game-neonCyan shadow-[0_0_15px_rgba(0,240,255,0.15)]' 
+          <div className={`p-5 rounded-2xl border text-center transition-all ${isMyTurn
+              ? 'bg-game-neonCyan/15 border-game-neonCyan shadow-[0_0_15px_rgba(0,240,255,0.15)]'
               : 'bg-white/5 border-white/5'
-          }`}>
+            }`}>
             <span className="text-xs text-white/40 font-bold tracking-wider uppercase block mb-1">
               Trạng thái lượt
             </span>
@@ -384,7 +381,7 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                   <div className="space-y-3">
                     <div className="text-center space-y-1">
                       <span className="text-sm text-game-neonCyan font-black uppercase tracking-widest block">Hãy Chọn Câu Hỏi</span>
-                      <p className="text-xs text-white/50">Chạm vào một chữ cái chưa khóa trên điện thoại để mở câu hỏi!</p>
+                      <p className="text-xs text-white/50">Chạm vào một ô số chưa khóa trên điện thoại để mở câu hỏi!</p>
                     </div>
 
                     <div className="grid grid-cols-4 gap-2.5">
@@ -395,11 +392,10 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                             key={idx}
                             disabled={isUsed}
                             onClick={() => sendAction('SELECT_QUESTION', idx + 1)}
-                            className={`aspect-square rounded-xl flex items-center justify-center font-extrabold text-2xl border transition-all ${
-                              isUsed
+                            className={`aspect-square rounded-xl flex items-center justify-center font-extrabold text-2xl border transition-all ${isUsed
                                 ? 'bg-black/50 border-white/5 text-white/10 cursor-not-allowed'
                                 : 'bg-game-neonCyan/10 border-game-neonCyan/40 text-white active:scale-95 active:bg-game-neonCyan active:text-black hover:border-game-neonCyan'
-                            }`}
+                              }`}
                           >
                             {letter}
                           </button>
@@ -430,7 +426,7 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                         Đến Lượt Nhóm Bạn Trả Lời
                       </span>
                       <h4 className="text-xl font-black uppercase text-white tracking-wide leading-none">
-                        Câu Hỏi Ô {syncedState.activeQuestion?.letter}
+                        Câu Hỏi Số {syncedState.activeQuestion?.letter}
                       </h4>
                     </div>
 
@@ -439,19 +435,17 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                       <div className="space-y-1.5">
                         <div className="flex justify-between items-center text-xs">
                           <span className="text-white/40 font-mono">Đồng hồ đếm ngược</span>
-                          <span className={`font-mono font-bold flex items-center gap-1.5 ${
-                            syncedState.timeLeft <= 5 ? 'text-game-neonRed animate-pulse' : 'text-game-neonCyan'
-                          }`}>
+                          <span className={`font-mono font-bold flex items-center gap-1.5 ${syncedState.timeLeft <= 5 ? 'text-game-neonRed animate-pulse' : 'text-game-neonCyan'
+                            }`}>
                             <Clock className="w-3.5 h-3.5" /> {syncedState.timeLeft} Giây
                           </span>
                         </div>
                         <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden border border-white/10">
                           <div
-                            className={`h-full rounded-full transition-all duration-1000 ${
-                              syncedState.timeLeft <= 5 ? 'bg-game-neonRed' :
-                              syncedState.timeLeft <= 12 ? 'bg-game-neonGold' :
-                              'bg-game-neonCyan'
-                            }`}
+                            className={`h-full rounded-full transition-all duration-1000 ${syncedState.timeLeft <= 5 ? 'bg-game-neonRed' :
+                                syncedState.timeLeft <= 12 ? 'bg-game-neonGold' :
+                                  'bg-game-neonCyan'
+                              }`}
                             style={{ width: `${(syncedState.timeLeft / (syncedState.discussionTimeLimit || 30)) * 100}%` }}
                           />
                         </div>
@@ -496,22 +490,21 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                         </div>
 
                         {/* If status is correct/incorrect/timeUp, show the correct styling & explanation */}
-                        {(syncedState.questionStatus === 'correct' || 
-                          syncedState.questionStatus === 'incorrect' || 
+                        {(syncedState.questionStatus === 'correct' ||
+                          syncedState.questionStatus === 'incorrect' ||
                           syncedState.questionStatus === 'timeUp') && (
-                          <div className={`p-4 md:p-5 rounded-2xl border animate-fade-in ${
-                            syncedState.questionStatus === 'correct'
-                              ? 'bg-game-neonGreen/10 border-game-neonGreen/25 text-game-neonGreen font-bold'
-                              : 'bg-game-neonRed/10 border-game-neonRed/25 text-game-neonRed font-bold'
-                          }`}>
-                            <h5 className="text-sm font-black uppercase tracking-wider mb-1.5">
-                              {syncedState.questionStatus === 'correct' ? '✔️ TRẢ LỜI ĐÚNG!' : '❌ TRẢ LỜI CHƯA ĐÚNG!'}
-                            </h5>
-                            <p className="text-xs text-white/90 leading-relaxed font-normal">
-                              <strong>Ý nghĩa lịch sử:</strong> {syncedState.activeQuestion?.explanation}
-                            </p>
-                          </div>
-                        )}
+                            <div className={`p-4 md:p-5 rounded-2xl border animate-fade-in ${syncedState.questionStatus === 'correct'
+                                ? 'bg-game-neonGreen/10 border-game-neonGreen/25 text-game-neonGreen font-bold'
+                                : 'bg-game-neonRed/10 border-game-neonRed/25 text-game-neonRed font-bold'
+                              }`}>
+                              <h5 className="text-sm font-black uppercase tracking-wider mb-1.5">
+                                {syncedState.questionStatus === 'correct' ? '✔️ TRẢ LỜI ĐÚNG!' : '❌ TRẢ LỜI CHƯA ĐÚNG!'}
+                              </h5>
+                              <p className="text-xs text-white/90 leading-relaxed font-normal">
+                                <strong>Ý nghĩa lịch sử:</strong> {syncedState.activeQuestion?.explanation}
+                              </p>
+                            </div>
+                          )}
                       </div>
                     )}
                   </div>
@@ -524,7 +517,7 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                         Đang Trong Lượt Của Đội Khác
                       </span>
                       <h4 className="text-base font-extrabold uppercase text-white/60 tracking-wide leading-none">
-                        Câu Hỏi Ô {syncedState.activeQuestion?.letter}
+                        Câu Hỏi Số {syncedState.activeQuestion?.letter}
                       </h4>
                     </div>
 
@@ -579,11 +572,10 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                         <button
                           disabled={syncedState.blockFlipInput || syncedState.temporaryScore === 0}
                           onClick={() => sendAction('SECURE_SCORE')}
-                          className={`px-5 py-3 rounded-xl font-extrabold uppercase tracking-wider text-xs transition-all duration-300 flex items-center gap-1.5 shadow-lg ${
-                            syncedState.temporaryScore > 0 && !syncedState.blockFlipInput
+                          className={`px-5 py-3 rounded-xl font-extrabold uppercase tracking-wider text-xs transition-all duration-300 flex items-center gap-1.5 shadow-lg ${syncedState.temporaryScore > 0 && !syncedState.blockFlipInput
                               ? 'bg-game-neonGold hover:bg-yellow-500 text-black cursor-pointer hover:shadow-[0_0_15px_rgba(255,184,0,0.3)]'
                               : 'bg-white/5 border border-white/5 text-white/20 cursor-not-allowed'
-                          }`}
+                            }`}
                         >
                           <Trophy className="w-3.5 h-3.5" /> Bảo Toàn Điểm
                         </button>
@@ -592,7 +584,7 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
 
                     {/* Side-by-Side Arena Splits Layout (Shifted to left, details on right) */}
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-                      
+
                       {/* Left Column: 12-Card Grid (lg:col-span-7) */}
                       <div className="lg:col-span-7 space-y-4">
                         <div className="glass-panel p-5 rounded-3xl border border-white/10 bg-white/5 shadow-[0_0_20px_rgba(255,255,255,0.02)]">
@@ -610,9 +602,8 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                               {syncedState.cardsDeck.map((card: Card, idx: number) => (
                                 <div key={card.id} className="h-28 sm:h-36 md:h-40 lg:h-44 aspect-[2/3] max-h-[15vh] md:max-h-[17vh] mx-auto perspective-1000 relative">
                                   <div
-                                    className={`w-full h-full duration-500 preserve-3d relative cursor-pointer ${
-                                      card.isRevealed ? 'rotate-y-180' : ''
-                                    }`}
+                                    className={`w-full h-full duration-500 preserve-3d relative cursor-pointer ${card.isRevealed ? 'rotate-y-180' : ''
+                                      }`}
                                     onClick={() => {
                                       if (!card.isRevealed && !syncedState.blockFlipInput) {
                                         sendAction('FLIP_CARD', idx);
@@ -620,11 +611,10 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                                     }}
                                   >
                                     {/* Card BACK */}
-                                    <div className={`absolute inset-0 w-full h-full backface-hidden rounded-2xl border flex flex-col items-center justify-center p-4 transition-all duration-300 ${
-                                      syncedState.blockFlipInput
+                                    <div className={`absolute inset-0 w-full h-full backface-hidden rounded-2xl border flex flex-col items-center justify-center p-4 transition-all duration-300 ${syncedState.blockFlipInput
                                         ? 'bg-game-cardBack border-white/5 cursor-not-allowed opacity-60'
                                         : 'bg-game-cardBack border-game-neonPurple/25 hover:border-game-neonPurple hover:bg-game-cardBackHover shadow-[0_0_10px_rgba(189,0,255,0.05)] hover:shadow-[0_0_15px_rgba(189,0,255,0.2)]'
-                                    }`}>
+                                      }`}>
                                       <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mb-2.5">
                                         <Shield className="w-5 h-5 text-game-neonPurple/50" />
                                       </div>
@@ -712,7 +702,7 @@ export const PlayerController: React.FC<PlayerControllerProps> = ({ initialRoomI
                           const details = getCardImpactDetails(syncedState.activeFlippedCard);
                           return (
                             <div className={`glass-panel p-5 rounded-3xl border animate-fade-in transition-all duration-300 bg-gradient-to-br from-[#0c0f1d] to-[#080a14] space-y-4 shadow-xl ${details.colorClass}`}>
-                              
+
                               {/* Visual Section: Large Card image + Score badge */}
                               <div className="flex flex-row items-center justify-center gap-6">
                                 {/* Magnified Card Image */}
