@@ -32,7 +32,7 @@ export const Header: React.FC<HeaderProps> = ({ isMuted, onToggleMute, onReset, 
           <Shield className="w-5 h-5 text-game-neonPurple neon-text-purple" />
         </div>
         <div>
-          <h1 className="text-xl font-bold uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-game-neonCyan via-game-neonPurple to-game-neonGold neon-text-cyan">
+          <h1 className="text-xl font-bold uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-game-neonCyan via-game-neonPurple to-game-neonGold py-1.5 leading-normal neon-text-cyan">
             Đại Đoàn Kết
           </h1>
           <p className="text-[10px] text-white/50 tracking-widest uppercase">Hay Bị Nổ?</p>

@@ -37,7 +37,7 @@ export const VictoryView: React.FC<VictoryViewProps> = ({ teams, onReset }) => {
             hasUniqueWinner
               ? 'from-game-neonGold via-white to-game-neonGold'
               : 'from-red-500 via-white to-red-500'
-          }`}>
+          } py-3 leading-normal`}>
             {hasUniqueWinner ? 'Đoàn Kết Là Sức Mạnh!' : 'Hòa Điểm Chung Cuộc!'}
           </h2>
         </div>

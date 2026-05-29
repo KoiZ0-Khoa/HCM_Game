@@ -164,7 +164,7 @@ export const LobbyView: React.FC<LobbyViewProps> = ({
 
       {/* Game Header */}
       <div className="text-center">
-        <h2 className="text-4xl md:text-5xl font-extrabold uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-game-neonCyan via-game-neonPurple to-game-neonGold mb-2">
+        <h2 className="text-4xl md:text-5xl font-extrabold uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-game-neonCyan via-game-neonPurple to-game-neonGold py-3 leading-normal mb-2">
           Đại Đoàn Kết Hay Bị Nổ?
         </h2>
         <p className="text-white/60 text-sm max-w-xl mx-auto">
