@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100..900;1,100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
 
 @theme {
   --color-game-dark: #07080d;
@@ -11,6 +11,9 @@
   --color-game-neonGold: #ffb800;
   --color-game-neonRed: #ff0055;
   --color-game-neonGreen: #39ff14;
+
+  --font-sans: 'Plus Jakarta Sans', sans-serif;
+  --font-display: 'Be Vietnam Pro', sans-serif;
 
   --animate-pulse-slow: pulse 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   --animate-shake: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
@@ -29,12 +32,13 @@
 }
 
 :root {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   color-scheme: dark;
 }
 
 body {
   margin: 0;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   background-color: #07080d;
   background-image: 
     radial-gradient(at 0% 0%, rgba(20, 10, 45, 0.5) 0px, transparent 50%),
@@ -42,6 +46,10 @@ body {
   color: #f3f4f6;
   min-height: 100vh;
   overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .font-display {
+  font-family: 'Be Vietnam Pro', sans-serif;
 }
 
 /* Glassmorphism Panel */

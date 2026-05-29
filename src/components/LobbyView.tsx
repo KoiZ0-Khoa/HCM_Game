@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Play, Users, Clock, QrCode, Monitor, Smartphone, X, HelpCircle, BookOpen } from 'lucide-react';
+import { Play, Users, Clock, QrCode, X, HelpCircle, BookOpen } from 'lucide-react';
 import { sounds } from '../utils/soundEffects';
 
 const CARD_LIBRARY = [
@@ -118,7 +118,6 @@ const CARD_LIBRARY = [
 interface LobbyViewProps {
   onStartGame: (teamNames: string[], discussionTime: number) => void;
   isOnlineMode: boolean;
-  setIsOnlineMode: (val: boolean) => void;
   roomId: string;
   connectedPlayers: { socketId: string; teamId: number; name: string }[];
 }
@@ -126,7 +125,6 @@ interface LobbyViewProps {
 export const LobbyView: React.FC<LobbyViewProps> = ({
   onStartGame,
   isOnlineMode,
-  setIsOnlineMode,
   roomId,
   connectedPlayers
 }) => {
@@ -174,7 +172,8 @@ export const LobbyView: React.FC<LobbyViewProps> = ({
         </p>
       </div>
 
-      {/* Mode Selection Panel */}
+      {/* Mode Selection Panel - Hidden by user request */}
+      {/*
       <div className="max-w-md mx-auto glass-panel p-2 rounded-2xl border-white/5 flex gap-2 shadow-[0_0_15px_rgba(0,0,0,0.3)]">
         <button
           onClick={() => { sounds.playClick(); setIsOnlineMode(false); }}
@@ -195,6 +194,7 @@ export const LobbyView: React.FC<LobbyViewProps> = ({
           <Smartphone className="w-4 h-4" /> Chơi Bằng Điện Thoại (Online)
         </button>
       </div>
+      */}
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
 

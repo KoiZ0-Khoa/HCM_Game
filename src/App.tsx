@@ -31,7 +31,6 @@ export const App: React.FC = () => {
     
     // Online states
     isOnlineMode,
-    setIsOnlineMode,
     roomId,
     connectedPlayers,
 
@@ -106,7 +105,6 @@ export const App: React.FC = () => {
           <LobbyView 
             onStartGame={startGame} 
             isOnlineMode={isOnlineMode}
-            setIsOnlineMode={setIsOnlineMode}
             roomId={roomId}
             connectedPlayers={connectedPlayers}
           />
